@@ -1,0 +1,91 @@
+Date: 2007-11-10 22:47:35
+Summary: Setting up Lua on Mac OS X.
+Author: nathany
+
+# Launch: getting Lua installed
+
+To play with Lua you need to download the source code and compile it. This isn't as scary as it sounds, as Lua is a positively <em>tiny</em> download and doesn't depend on anything more than a C compiler. Lua is written in standard ANSI C, so any one should work. I will give instructions for <strong>Mac OS X</strong>, because that's what I use.
+
+<h2>Building</h2>
+
+First, you need to have Apple's Developer Tools installed. They should be your Mac OS X disc, under Optional Installs -&gt; Xcode Tools. Run the XcodeTools package to install. You can also <a href="http://developer.apple.com/tools/download/">download Xcode</a> if you sign up for a free ADC account (but note: they are large!).
+
+Next, <a href="http://www.lua.org/download.html">download Lua source code</a> and unpack the archive in Finder. Or you can use <strong>Terminal</strong> to download the current  release (5.1.2) to your Downloads folder (or a suitable location of your choice):
+
+<code>cd Downloads
+curl -O http://www.lua.org/ftp/lua-5.1.2.tar.gz
+tar xzvf lua-5.1.2.tar.gz
+cd lua-5.1.2</code>
+
+Either way, you need <strong>Terminal</strong> (from Application/Utilities) to do the rest. Make sure you are in the lua-5.1.2/ folder, and type:
+<code>make macosx</code>
+
+Several lines should scroll by. On Leopard you will see some <em>deprecated</em> warnings in loadlib.c. Don't worry about it. To make sure everything is okay, run:
+<code>make test</code>
+You should see <strong>"Hello world, from Lua 5.1!"</strong>
+
+
+
+<h2>Installing</h2>
+
+It is possible to run the Lua interpreter from right here, but let's install it the rest of the way. For this we will need to run "make install". By default Lua installs to /usr. This will work, but it's recommended to install under /usr/local.
+
+So from the lua-5.1.2/ folder, run:
+<code>sudo make install INSTALL_TOP=/usr/local</code>
+and provide your password.
+
+It appears that Leopard ships with /usr/local/bin in your path. You can check by running: (make sure PATH is uppercase)
+<code>env | grep PATH</code>
+
+If you don't see it there, you need to modify your .profile file.
+<code>pico ~/.profile</code>
+
+and include:
+
+<code>export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+export MANPATH="/usr/local/man:$MANPATH"</code>
+
+If you are using <a href="http://macromates.com">TextMate</a>, and will be installing the Lua bundle later, you may also want to include:
+
+<code>export SVN_EDITOR="mate -w"
+export LC_CTYPE=en_US.UTF-8</code>
+
+With pico, press Ctrl-X followed by Y to exit and save.
+
+The changes will take affect when you open a new Terminal window.
+
+<h2>Running</h2>
+
+With Lua installed in your path, you can run it in Terminal from any folder. Just type:
+<code>lua</code>
+
+This brings up the interactive interpreter. You can type in Lua code:
+<code>print "Hi"</code>
+<code>= 2 + 3</code>
+
+Press <strong>Ctrl-C</strong> to exit when you're done.
+
+Now that Lua is installed, you <em>could</em> remove the Downloads/lua-5.1.2 folder. But you may want to check out the test/ folder for some example code. You can run these examples from within the lua-5.1.2/test/ folder like this:
+
+<code>lua factorial.lua</code>
+
+A local copy of the <a href="http://www.lua.org/manual/5.1/">Reference Manual</a> can be found under doc/manual.html.
+
+
+<h2>TextMate</h2>
+
+If you are using <a href="http://macromates.com/">TextMate</a>, there is a Lua bundle to give it color syntax highlighting and a few snippets. Unfortunately the Lua bundle isn't included by default. You can either use <a href="http://projects.validcode.net/getbundle">GetBundle</a>, or you can grab it with the command line as follows.
+
+The bundles are stored in a Subversion repository, which requires Subversion (svn) on your computer. Leopard comes with Subversion, but for Tiger or prior you need to install it. I've had good success with <a href="http://homepage.mac.com/martinott/">Martin Ott's Subversion package</a>.
+
+As per the <a href="http://macromates.com/textmate/manual/bundles#getting_more_bundles">TextMate manual</a>:
+
+<code>mkdir -p /Library/Application\ Support/TextMate/Bundles</code>
+<code>cd /Library/Application\ Support/TextMate/Bundles</code>
+<code>svn co http://svn.textmate.org/trunk/Bundles/Lua.tmbundle</code>
+
+You need to restart TextMate or navigate to to Bundles -&gt; Bundle Editor -&gt; <strong>Reload Bundles</strong> in the menu.
+
+Files with a .lua extension will be associated with the Lua language bundle. One nice feature is that you can press Command-R to run them.
+
+So that's about it for getting setup. Now we just need to write some code!
