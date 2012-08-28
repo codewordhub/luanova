@@ -20,9 +20,9 @@ It is true that the first trade-off is the freedom to do things _your_ way, sinc
 
 [Installing Sputnik](http://sputnik.freewisdom.org/en/Installation) is straightforward, providing you are on a Unix-like platform (like Linux or OS X) although it does also run on Windows.  In this introduction, I assume that it is an Unix environment (although out of convenience, not religious fervour; it is very easy to get a Linux virtual machine and set it up for Sputnik testing.)   After following instructions, you will have a Sputnik install in **~/sputnik**, no special permissions necessary.  Starting the webserver is then just:
 
-  <pre lang="bash">
-  ~/sputnik$ ./bin/sputnik.lua start-xavante sputnik.ws
-  </pre>
+~~~ bash
+~/sputnik$ ./bin/sputnik.lua start-xavante sputnik.ws
+~~~
 
 Sputnik comes with the [Kepler stack](http://www.keplerproject.org), including the Lua webserver Xavante.  This is quite good enough for testing and experimentation.
 
@@ -30,23 +30,22 @@ A useful change is to first edit **sputnik.ws** and set **BASE_URL** to '/' and 
 
 All Sputnik configuration is via nodes with Lua content. For instance, **sputnik/config**  assigns a set of fields to values. If you are editing this file (as Admin) and make a syntax error (such as **'Sputnik"**, mismatching string delimiters) the edit field will turn pink. **sputnik/navigation** controls the navigation bar menu:
 
-  <pre lang="lua">
-  NAVIGATION = {
-     {id="index", title="Start",
-       {id="snippets", title="Snippets"},
-       {id="tags", title="Tags"},
-       {id="sputnik",title="Configure"},
-     },
-     {id="News", title="Timeline",
-       {id="News"},
-       {id="Future Plans"},
-       {id="history", title="Recent Wiki Edits"},
-       {id="history/edits_by_recent_users", title="Edits by Recent Users"},
-       {id="history.rss", title="RSS Feed"},
-     },
-  }
-  </pre>
-
+~~~ lua
+NAVIGATION = {
+   {id="index", title="Start",
+     {id="snippets", title="Snippets"},
+     {id="tags", title="Tags"},
+     {id="sputnik",title="Configure"},
+   },
+   {id="News", title="Timeline",
+     {id="News"},
+     {id="Future Plans"},
+     {id="history", title="Recent Wiki Edits"},
+     {id="history/edits_by_recent_users", title="Edits by Recent Users"},
+     {id="history.rss", title="RSS Feed"},
+   },
+}
+~~~
 
 Creating a new node is easy; if you ask for a node **test** then it will tell you that this node does not exist, but then will give you several types to choose from.  The 'Basic' type is a plain Wiki page, and the link provided is something like **http://localhost:8080/?p=test.edit&prototype=**.  In general, a Sputnik request has a _node id_ ('test'), an _action_ ('edit') and _parameters_ ('prototype=')
 
@@ -74,23 +73,23 @@ It _is_ possible to customize Sputnik by putting a suitable **pages.lua** in **$
 
 The best quick solution is to add directories to the **LUA_PATH** environment variable before launching Sputnik:
 
-  <pre lang="bash">
-  ~/sputnik$ export LUA_PATH=";;$HOME/sputnik/examples/?.lua"
-  </pre>
+~~~ bash
+~/sputnik$ export LUA_PATH=";;$HOME/sputnik/examples/?.lua"
+~~~
 
 Then create a directory **~/sputnik/examples/sputnik/node_defaults** containing this file, **pages.lua**:
 
-  <pre lang="lua">
-  module(..., package.seeall)
+~~~ lua
+module(..., package.seeall)
 
-  NODE = {
-     title="Pages",
-     content = "",
-     child_defaults = [[
-          any='prototype = ""'
-      ]],
-  }
-  </pre>
+NODE = {
+   title="Pages",
+   content = "",
+   child_defaults = [[
+        any='prototype = ""'
+    ]],
+}
+~~~
 
 It is structured as a Lua module, which contains a single exported table, **NODE** .  The definition of the field **child_defaults** may appear a little hairy at first, but it's now time to get the three different ways to do string literals in Lua straight.  Whether you use single or double quotes for a string, does not matter; it is a convenience so that you can embed the other kind of quotes: **'prototype = ""'**. This string is then further embedded in a Lua 'long string' literal.
 
@@ -104,27 +103,27 @@ and save, the result will have a link to a new page, which you can in turn edit.
 
 To see how Sputnik saves pages by default, look at the **~/sputnik/wiki-data** directory. There will be a subdirectory **pages%2FIntroduction** with files **000001** and **index**. (The subdirectory is just the URL-encoded form of 'pages/Introduction' ).  **index** will contain something like this:
 
-  <pre lang="lua">
-  add_version{
-  version   = "000001",
-  timestamp = "2009-11-01 14:33:07",
-  author    = "",
-  comment   = "",
-   ["minor"] = "",
-   ["ip"] = "127.0.0.1",
-  }
-  </pre>
+~~~ lua
+add_version{
+version   = "000001",
+timestamp = "2009-11-01 14:33:07",
+author    = "",
+comment   = "",
+ ["minor"] = "",
+ ["ip"] = "127.0.0.1",
+}
+~~~
 
 And **000001** contains the node text:
 
-  <pre lang="lua">
-  title          = "pages/Introduction"
-  category       = ""
-  content        = [=[Some text for the Introduction node. See [[pages/Basic]]
+~~~ lua
+title          = "pages/Introduction"
+category       = ""
+content        = [=[Some text for the Introduction node. See [[pages/Basic]]
 
-  ]=]
-  breadcrumb     = ""
-  </pre>
+]=]
+breadcrumb     = ""
+~~~
 
 As the node is edited, each revision is saved in a similar format, **000002**, etc.  In this way, edit history is managed in a simple way, easily readable by humans, as opposed to being stored in some relational database. However, using a database for storage is also supported by the Sputnik content manager, which is called [Saci](http://sputnik.freewisdom.org/en/Saci).
 
@@ -132,92 +131,94 @@ As the node is edited, each revision is saved in a similar format, **000002**, e
 
 Before actually starting with code, it's useful to have a handy shortcut to the Lua executable used by Sputnik.  I suggest creating a little executable script like this on your path:
 
-  <pre lang="bash">
+~~~ bash
   $> cat ~/bin/slua
   ~/sputnik/bin/lua -lluarocks.require $*
-  </pre>
+~~~
 
 Before we actually get round to generating dynamic content, here is a quick review of [Cosmo](http://cosmo.luaforge.net/),  which is a powerful template engine used by Sputnik.
 
-  <pre lang="bash">
-  ~$ slua
-  </pre>
-  <pre lang="lua">
-  Lua 5.1.4  Copyright (C) 1994-2008 Lua.org, PUC-Rio
-  > require "cosmo"
-  > template = "$rank of $suit"
-  > values = {rank="Ace",suit="Spades"}
-  > = cosmo.fill(template,values)
-  Ace of Spades
-  </pre>
+~~~ bash
+~$ slua
+~~~
+
+~~~ lua
+Lua 5.1.4  Copyright (C) 1994-2008 Lua.org, PUC-Rio
+> require "cosmo"
+> template = "$rank of $suit"
+> values = {rank="Ace",suit="Spades"}
+> = cosmo.fill(template,values)
+Ace of Spades
+~~~
 
 That's useful, although only a little more friendly than Lua's **string.format** function.  However, Cosmo goes way beyond simple [string interpolation](http://lua-users.org/wiki/StringInterpolation).
 
-  <pre lang="lua">
-  -- testcosmo.lua
-  require "cosmo"
-  template = [==[
-  <h1>$list_name</h1>
-  <ul>
-   $do_items[[<li>$item</li>]]
-  </ul>
-  ]==]
+~~~ lua
+-- testcosmo.lua
+require "cosmo"
+template = [==[
+<h1>$list_name</h1>
+<ul>
+ $do_items[[<li>$item</li>]]
+</ul>
+]==]
 
-  print(cosmo.fill(template, {
-      list_name = "My List",
-      do_items  = function()
-          for i=1,5 do
-             cosmo.yield { item = i }
-          end
-      end
-  }
-  ))
-  </pre>
+print(cosmo.fill(template, {
+    list_name = "My List",
+    do_items  = function()
+        for i=1,5 do
+           cosmo.yield { item = i }
+        end
+    end
+}
+))
+~~~
 
-  <pre lang="bash">
+~~~ bash
   ~$ slua testcosmo.lua
-  </pre>
-  <pre lang="html">
+~~~
+
+~~~ html
   <h1>My List</h1>
   <ul>
    <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li>
   </ul>
-  </pre>
+~~~
 
 _Subtemplates_ are a powerful feature which makes generating HTML straightforward.
 
 Now, we create a node which creates custom HTML output.  First, put **Memory.lua** in your  **node_defaults** directory:
 
-  <pre lang="lua">
-  module(..., package.seeall)
+~~~ lua
+module(..., package.seeall)
 
-  NODE = {
-      title = "Lua Memory",
-      content = "",
-      actions = [[
-          show="Memory.show_memory"
-      ]],
-  }
-  </pre>
+NODE = {
+    title = "Lua Memory",
+    content = "",
+    actions = [[
+        show="Memory.show_memory"
+    ]],
+}
+~~~
 
 Create a directory **actions** (that is, **~/sputnik/examples/sputnik/actions**) and put this **Memory.lua** in it:
 
-  <pre lang="lua">
-  module(..., package.seeall)
+~~~ lua
+module(..., package.seeall)
 
-  actions = {}
+actions = {}
 
-  local template = [=[
-     <h2>Memory used by Lua is $mem kb</h2>
-  ]=]
+local template = [=[
+   <h2>Memory used by Lua is $mem kb</h2>
+]=]
 
-  function actions.show_memory (node, request, sputnik)
-      node.inner_html = cosmo.f(template) {
-          mem = ('%6.0f'):format(collectgarbage('count')),
-      }
-      return node.wrappers.default(node, request, sputnik)
-  end
-  </pre>
+function actions.show_memory (node, request, sputnik)
+    node.inner_html = cosmo.f(template) {
+        mem = ('%6.0f'):format(collectgarbage('count')),
+    }
+    return node.wrappers.default(node, request, sputnik)
+end
+~~~
 
 The convention is that any _action_ functions are in the **actions** directory; these functions must be in a nested **actions** table.  Visiting the node **Memory** will show the memory managed by Lua (as returned by the **collectgarbage('count')** call).
 
@@ -227,74 +228,75 @@ So, we now have a customized node with generated output.  Please note that it do
 
 To take this example further, let us wrap the output of the **ps** command:
 
-  <pre lang="bash">
-  ~$ ps aux --cols 256
-  USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-  ...
-  sdonovan  2867  0.8  2.3  41972 15932 pts/1    Sl   10:47   3:57 /home/sdonovan/lua/scite/SciTE
-  sdonovan  2902  1.2 12.4 179152 83160 ?        Sl   10:48   5:19 /usr/lib/iceweasel/firefox-bin -a firefox
-  sdonovan  5993  0.0  0.4   5360  2844 pts/2    Ss   16:13   0:00 bash
-  sdonovan  7118  0.0  0.3   5360  2024 pts/0    S+   18:03   0:00 bash
-  sdonovan  7119  0.4  1.1   8384  7380 pts/0    S+   18:03   0:01 /home/sdonovan/sputnik/bin/lua -lluarocks.require /home/sdonovan/sputnik/rocks/sputnik/9.03.16-0/bin/sputnik.lua start-xavante sputnik.ws
-  </pre>
+~~~ bash
+~$ ps aux --cols 256
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+...
+sdonovan  2867  0.8  2.3  41972 15932 pts/1    Sl   10:47   3:57 /home/sdonovan/lua/scite/SciTE
+sdonovan  2902  1.2 12.4 179152 83160 ?        Sl   10:48   5:19 /usr/lib/iceweasel/firefox-bin -a firefox
+sdonovan  5993  0.0  0.4   5360  2844 pts/2    Ss   16:13   0:00 bash
+sdonovan  7118  0.0  0.3   5360  2024 pts/0    S+   18:03   0:00 bash
+sdonovan  7119  0.4  1.1   8384  7380 pts/0    S+   18:03   0:01 /home/sdonovan/sputnik/bin/lua -lluarocks.require /home/sdonovan/sputnik/rocks/sputnik/9.03.16-0/bin/sputnik.lua start-xavante sputnik.ws
+~~~
 
 (The **--cols** flag is necessary to prevent **ps** from thoughtfully truncating the line length to fit the terminal screen)
 
 Chopping lines up is easy using **sputnik.util.split** - notice that it returns multiple values, not a table:
 
-  <pre lang="bash">
-  ~$ slua
-  </pre>
-  <pre lang="lua">
-  Lua 5.1.4  Copyright (C) 1994-2008 Lua.org, PUC-Rio
-  > util = require 'sputnik.util'
-  > = util.split('one two three','%s+')
-  one     two     three
-  </pre>
+~~~ bash
+~$ slua
+~~~
+
+~~~ lua
+Lua 5.1.4  Copyright (C) 1994-2008 Lua.org, PUC-Rio
+> util = require 'sputnik.util'
+> = util.split('one two three','%s+')
+one     two     three
+~~~
 
 With this, a more exciting version of **actions/Memory.lua** can be written:
 
-  <pre lang="lua">
-  module(..., package.seeall)
-  local util = require 'sputnik.util'
-  actions = {}
+~~~ lua
+module(..., package.seeall)
+local util = require 'sputnik.util'
+actions = {}
 
-  local template = [=[
-     <h2>Memory used by Lua is $mem kb</h2>
-     <h2>Processes</h2>
-     <table>
-     <tr>
-      <th>User</th><th>CPU</th><th>Mem</th><th>Command</th>
-     </tr>
-     $do_processes[[
-          <tr>
-          <td>$user</td><td>$cpu</td><td>$mem</td><td>$cmd</td>
-          </tr>
-     ]]
-     </table>
-  ]=]
+local template = [=[
+   <h2>Memory used by Lua is $mem kb</h2>
+   <h2>Processes</h2>
+   <table>
+   <tr>
+    <th>User</th><th>CPU</th><th>Mem</th><th>Command</th>
+   </tr>
+   $do_processes[[
+        <tr>
+        <td>$user</td><td>$cpu</td><td>$mem</td><td>$cmd</td>
+        </tr>
+   ]]
+   </table>
+]=]
 
-  function actions.show_memory (node, request, sputnik)
-      node.inner_html = cosmo.f(template) {
-          mem = ('%6.0f'):format(collectgarbage('count')),
-          do_processes = function()
-              local user = os.getenv 'USER'
-              -- this works on LInux, may need some mods for BSD/OS X.
-              local f = io.popen('ps --cols 256 aux','r')
-              f:read() -- not interested in column headers
-              for line in f:lines() do
-                  local fields = {util.split(line,'%s+')}
-                  if fields[1] == user then
-                      cosmo.yield {
-                          user = fields[1], cpu = fields[3], mem = fields[4], cmd = fields[11],
-                      }
-                  end
-              end
-          end
-      }
-      return node.wrappers.default(node, request, sputnik)
-  end
-  </pre>
+function actions.show_memory (node, request, sputnik)
+    node.inner_html = cosmo.f(template) {
+        mem = ('%6.0f'):format(collectgarbage('count')),
+        do_processes = function()
+            local user = os.getenv 'USER'
+            -- this works on LInux, may need some mods for BSD/OS X.
+            local f = io.popen('ps --cols 256 aux','r')
+            f:read() -- not interested in column headers
+            for line in f:lines() do
+                local fields = {util.split(line,'%s+')}
+                if fields[1] == user then
+                    cosmo.yield {
+                        user = fields[1], cpu = fields[3], mem = fields[4], cmd = fields[11],
+                    }
+                end
+            end
+        end
+    }
+    return node.wrappers.default(node, request, sputnik)
+end
+~~~
 
 Now the node **Memory** is actually useful for the administrator of the website - but probably not a good idea to expose to the world!
 
@@ -302,29 +304,29 @@ Now the node **Memory** is actually useful for the administrator of the website 
 
 The node **Memory** should be restricted; only the Admin user should be able to view it. Also, it does not make sense to edit it, even as an administrator.  **actions/Memory.lua** needs to have a _permissions_ field:
 
-  <pre lang="lua">
-  module(..., package.seeall)
+~~~ lua
+module(..., package.seeall)
 
-  NODE = {
-      title = "Lua Memory",
-      content = "",
-      actions = [[
-          show="Memory.show_memory"
-      ]],
-      permissions = [[
-          deny(all_users,all_actions)
-          allow(Admin,show)
-      ]]
-  }
-  </pre>
+NODE = {
+    title = "Lua Memory",
+    content = "",
+    actions = [[
+        show="Memory.show_memory"
+    ]],
+    permissions = [[
+        deny(all_users,all_actions)
+        allow(Admin,show)
+    ]]
+}
+~~~
 
 We start by prohibiting _everything_, and then only let Admin view the page.  Notice that all of the usual little action icons on the right-hand side have disappeared.
 
 To get back to the **pages** example; we may insist that only authenticated users can edit the pages.  There are two kinds of solution to this, make it site-wide policy or only for children of **pages**.  The first solution requires no code; as Admin, go to the **@Root** node, and choose the 'configure' action (which is usually the little gear icon next to 'edit' on the actions toolbar)  Now open the 'Advanced Fields' section, and you can then edit the 'Permissions' field.  By default, Sputnik comments out this line:
 
-  <pre lang="lua">
-  -- deny(Anonymous, edit_and_save)
-  </pre>
+~~~ lua
+-- deny(Anonymous, edit_and_save)
+~~~
 
 Remove the comment and save.  Now anonymous users have lost their power to make edits anywhere on the site.
 
@@ -334,30 +336,30 @@ Previously, the **pages** node has insisted that its children have an 'empty' pr
 
 **node_defaults/pages.lua** becomes:
 
-  <pre lang="lua">
-  module(..., package.seeall)
+~~~ lua
+module(..., package.seeall)
 
-  NODE = {
-     title="Pages",
-     content = "",
-     child_defaults = [[
-          any='prototype = "@pages"'
-      ]]
-  }
-  </pre>
+NODE = {
+   title="Pages",
+   content = "",
+   child_defaults = [[
+        any='prototype = "@pages"'
+    ]]
+}
+~~~
 
 and create a new file **node_defaults/@pages.lua** to define the **@pages** prototype:
 
-  <pre lang="lua">
-  module(..., package.seeall)
+~~~ lua
+module(..., package.seeall)
 
-  NODE = {
-     content = "",
-     permissions=[[
-          deny(Anonymous,edit_and_save)
-     ]]
-  }
-  </pre>
+NODE = {
+   content = "",
+   permissions=[[
+        deny(Anonymous,edit_and_save)
+   ]]
+}
+~~~
 
 It does very little, just explicitly overrides the permissions.
 
@@ -365,54 +367,54 @@ It does very little, just explicitly overrides the permissions.
 
 Continuing with the **pages** example, it would be useful if we could track the author of a particular page, defined simply as the user that first edited it.  Also, we would like to track the creation date.  So the prototype for all pages must include these new_fields and define a _save hook_ which will be called when the node is saved:
 
-  <pre lang="lua">
-  -- node_defaults/@pages.lua
-  module(..., package.seeall)
+~~~ lua
+-- node_defaults/@pages.lua
+module(..., package.seeall)
 
-  NODE = {
-     content = "",
-     permissions=[[
-          deny(Anonymous,edit_and_save)
-     ]],
-     fields = [[
-        author = {1.1}
-        creation_time = {1.2}
-    ]],
-     save_hook = "pages.save_page"
-  }
-  </pre>
+NODE = {
+   content = "",
+   permissions=[[
+        deny(Anonymous,edit_and_save)
+   ]],
+   fields = [[
+      author = {1.1}
+      creation_time = {1.2}
+  ]],
+   save_hook = "pages.save_page"
+}
+~~~
 
 Create a directory 'sputnik/hooks' as before, and put **pages.lua** in it:
 
-  <pre lang="lua">
-  -- hooks/pages.lua
-  module(..., package.seeall)
+~~~ lua
+-- hooks/pages.lua
+module(..., package.seeall)
 
-  function save_page(node, request, sputnik)
-      if not node.creation_time then
-         local params = {}
-         params.author = request.user
-         params.creation_time = tostring(os.time())
-         node = sputnik:update_node_with_params(node, params)
-      end
-      return node
-  end
-  </pre>
+function save_page(node, request, sputnik)
+    if not node.creation_time then
+       local params = {}
+       params.author = request.user
+       params.creation_time = tostring(os.time())
+       node = sputnik:update_node_with_params(node, params)
+    end
+    return node
+end
+~~~
 
 When a node's **save_hook** field is set to **MODULE.FUNCTION** , then Sputnik will try to load **sputnik.hooks.MODULE** and use the **FUNCTION** defined by that module.  In this case, the save hook is only interested in a new node, where the author and creation time fields have not been assigned yet.  It uses the **update_node_with_params** method to write the new key/value pairs into the node.
 
 Now, after saving **pages/fred**, the revision in the **pages%2Ffred** directory will look like this:
 
-  <pre lang="lua">
-  title          = "pages/fred"
-  category       = ""
-  prototype      = "@pages"
-  content        = [[Some content!
-  ]]
-  breadcrumb     = ""
-  author         = "sdonovan"
-  creation_time  = "1257157113"
-  </pre>
+~~~ lua
+title          = "pages/fred"
+category       = ""
+prototype      = "@pages"
+content        = [[Some content!
+]]
+breadcrumb     = ""
+author         = "sdonovan"
+creation_time  = "1257157113"
+~~~
 
 This shows that we are saving the new information, although these fields are not displayed yet.
 
@@ -424,68 +426,68 @@ If you are accustomed to regular Web frameworks, you are probably tempted to mai
 
 The existing pages can be found by querying Saci, which provides a **get_nodes_by_prefix** method. The prefix identifies the _namespace_ for the nodes, which is **pages** in this case. This method returns a table where the keys are the _identifiers_ (e.g. **pages/fred**) and the values are the node objects. Here is code that creates a list of nodes from this table, and sorts it by creation time.
 
-  <pre lang="lua">
-  local function pages_in_order (sputnik)
-      local pages = sputnik.saci:get_nodes_by_prefix 'pages'
-      local res = {}
-      for id,page in pairs(pages) do
-          res[#res+1] = page
-      end
-      table.sort(res,function(p1,p2) return p1.creation_time < p2.creation_time end)
-      return res
-  end
-  </pre>
+~~~ lua
+local function pages_in_order (sputnik)
+    local pages = sputnik.saci:get_nodes_by_prefix 'pages'
+    local res = {}
+    for id,page in pairs(pages) do
+        res[#res+1] = page
+    end
+    table.sort(res,function(p1,p2) return p1.creation_time < p2.creation_time end)
+    return res
+end
+~~~
 
 **node_defaults/pages.lua** gets an actions field, just as with **node_defaults/Memory.lua**:
 
-  <pre lang="lua">
-  actions=[[
-      show="pages.show_pages"
-  ]]
-  </pre>
+~~~ lua
+actions=[[
+    show="pages.show_pages"
+]]
+~~~
 
 And **actions/pages.lua** will be:
 
-  <pre lang="lua">
-  module (...,package.seeall)
+~~~ lua
+module (...,package.seeall)
 
-  actions = {}
+actions = {}
 
-  local template = [=[
-     <h2>Existing Pages</h2>
-     <table>
-     <tr>
-      <th>Page</th><th>Author</th><th>Created</th>
-     </tr>
-     $do_pages[[
-          <tr>
-          <td><a href="?p=$id">$name</a></td><td>$author</td><td>$created</td>
-          </tr>
-     ]]
-     </table>
-  ]=]
+local template = [=[
+   <h2>Existing Pages</h2>
+   <table>
+   <tr>
+    <th>Page</th><th>Author</th><th>Created</th>
+   </tr>
+   $do_pages[[
+        <tr>
+        <td><a href="?p=$id">$name</a></td><td>$author</td><td>$created</td>
+        </tr>
+   ]]
+   </table>
+]=]
 
-  local function pages_in_order(sputnik)
-  ....
-  end
+local function pages_in_order(sputnik)
+....
+end
 
-  function actions.show_pages(node, request, sputnik)
-      node.inner_html = cosmo.f(template) {
-          do_pages = function()
-              local pages = pages_in_order(sputnik)
-              for _,page in ipairs(pages) do
-                  cosmo.yield{
-                      id = page.id,
-                      name = page.id:gsub('pages/',''),
-                      author = page.author,
-                      created = sputnik:format_time(page.creation_time,"%d %b %Y")
-                  }
-              end
-          end
-      }
-      return node.wrappers.default(node, request, sputnik)
-  end
-  </pre>
+function actions.show_pages(node, request, sputnik)
+    node.inner_html = cosmo.f(template) {
+        do_pages = function()
+            local pages = pages_in_order(sputnik)
+            for _,page in ipairs(pages) do
+                cosmo.yield{
+                    id = page.id,
+                    name = page.id:gsub('pages/',''),
+                    author = page.author,
+                    created = sputnik:format_time(page.creation_time,"%d %b %Y")
+                }
+            end
+        end
+    }
+    return node.wrappers.default(node, request, sputnik)
+end
+~~~
 
 ## Beyond the Basics
 

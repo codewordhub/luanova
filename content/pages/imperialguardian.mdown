@@ -40,9 +40,10 @@ of friendliness they may want to express themselves personally. It
 is for that reason that I recommend that during the development phase
 of the website each page should contain within its header the tags
 
-
-    <meta  http-equiv="pragma" content="no-cache" />
-    <meta  http-equiv="cache-control" content="no-cache" />
+~~~html
+<meta  http-equiv="pragma" content="no-cache" />
+<meta  http-equiv="cache-control" content="no-cache" />
+~~~
 
 because otherwise you will have the committee chairman sending you
 messages accusing you of not getting on with the job: "Hi Gavin,
@@ -160,11 +161,15 @@ we define the datatype of "ropes" recursively by:
 
 In Lua syntax, a rope either looks like
 
-    [[ ..... ]]
+~~~ lua
+[[ ..... ]]
+~~~
 
 or like
 
-    { ........ }
+~~~ lua
+{ ........ }
+~~~
 
 where the contents of the braces are a comma separated list of
 ropes.
@@ -181,47 +186,47 @@ So this code
 
 can be obtained by printing out the rope
 
-    <pre lang="lua">
-     {
-     {
-      [[<a ]],
-      {
-       [[href="]],
-       [[http://luanova.org/]],
-       [["]],
-      },
-      [[>]],
-     },
-     [[LuaNova]],
-     [[</a>]],
-     }
-     </pre>
+~~~ lua
+{
+{
+[[<a ]],
+{
+ [[href="]],
+ [[http://luanova.org/]],
+ [["]],
+},
+[[>]],
+},
+[[LuaNova]],
+[[</a>]],
+}
+~~~
 
 If we define
 
-    <pre lang="lua">
-     link = function (url)
-            return function (label)
-                    return {
-     {
-      [[<a ]],
-      {
-       [[href="]],
-       url,
-       [["]],
-      },
-      [[>]],
-     },
-     label,
-     [[</a>]],
-     } end end
-     </pre>
+~~~ lua
+link = function (url)
+      return function (label)
+              return {
+{
+[[<a ]],
+{
+ [[href="]],
+ url,
+ [["]],
+},
+[[>]],
+},
+label,
+[[</a>]],
+} end end
+~~~
 
 then our rope is just the value of
 
-    <pre lang="lua">
-    link "http://luanova.org/" "LuaNova"
-    </pre>
+~~~
+link "http://luanova.org/" "LuaNova"
+~~~
 
 There are two sorts of markup: "monotags" and "tags".
 
@@ -231,9 +236,9 @@ By a monotag I mean something like
 
 and we can implement this as a function from ropes to ropes:
 
-    <pre lang="lua">
-    function(attr) return {"<tag_name ",attr," />"} end
-    </pre>
+~~~ lua
+function(attr) return {"<tag_name ",attr," />"} end
+~~~
 
 By a tag I mean something like
 
@@ -242,13 +247,13 @@ By a tag I mean something like
 which we can implement as a function from ropes to functions from
 ropes to ropes:
 
-    <pre lang="lua">
-     function(attr)
-      return function(stuff) return
-             {"<tag_id ",attr,">",stuff,"</tag_id>"}
-             end
-     end
-     </pre>
+~~~ lua
+function(attr)
+return function(stuff) return
+       {"<tag_id ",attr,">",stuff,"</tag_id>"}
+       end
+end
+~~~
 
 To simplify construction of webpages I invented a little language,
 which I called _Weave_, as a fragment of Lua using strings and ropes
@@ -269,20 +274,20 @@ module "xhtml" instead.
 To create a very trivial webpage "foo.html" in the current directory,
 run a Lua script as follows:
 
-    <pre lang="lua">
-     #! lua
-     require "xhtml"
-     do
-     local mydoc = BEGIN "foo.html"
-     local hstyle = [[style="text-align: centre;"]]
-     local myheader, link = xhtml.TAG.h1, xhtml.link
-     mydoc.BODY = {
-                   myheader (hstyle) "Try this";
-                   link "http://luanova.org/" "Lua Nova";
-                  }
-     END(mydoc) -- write the rope out to file
-     end -- do
-     </pre>
+~~~ lua
+#! lua
+require "xhtml"
+do
+local mydoc = BEGIN "foo.html"
+local hstyle = [[style="text-align: centre;"]]
+local myheader, link = xhtml.TAG.h1, xhtml.link
+mydoc.BODY = {
+             myheader (hstyle) "Try this";
+             link "http://luanova.org/" "Lua Nova";
+            }
+END(mydoc) -- write the rope out to file
+end -- do
+~~~
 
 OK, this takes almost as long as creating the webpage by hand, for
 this trivial example. But it should not take too much imagination
@@ -294,227 +299,227 @@ Here are the relevant modules:
 
 **weave.lua**
 
-    <pre lang="lua">
-     --[[
-         The rope datatype is defined recursively:
+~~~ lua
+--[[
+ The rope datatype is defined recursively:
 
-         data rope = string | list of rope.
+ data rope = string | list of rope.
 
-       Use:  status,err = rope.walk(rope,function)
-             print(table.concat(err,"."))
-       Error message prints out index at each level.
-     ]]
-     local pcall = pcall
-     local type = type
-     local ipairs = ipairs
-     local tostring = tostring
-     local assert = assert
-     local setmetatable = setmetatable
-     local open = io.open
+Use:  status,err = rope.walk(rope,function)
+     print(table.concat(err,"."))
+Error message prints out index at each level.
+]]
+local pcall = pcall
+local type = type
+local ipairs = ipairs
+local tostring = tostring
+local assert = assert
+local setmetatable = setmetatable
+local open = io.open
 
-     module "weave"
+module "weave"
 
-     -- ropes -------
+-- ropes -------
 
-     local t_err = "<bad type: %s>"
-     local a_err = "<bad arg: %s>"
+local t_err = "<bad type: %s>"
+local a_err = "<bad arg: %s>"
 
-     walk = function(x,f)  -- apply f to leaves of tree x, depth first
-          local g
-          g = function(x,e) -- e = error stack
-             local x_type, status = type(x)
-             if x_type == "string" then
-              status = pcall(f,x)
-              if not status then e[1+#e] = a_err:format(x) end -- if
-                  return status,e
-              elseif x_type == "table" then
-                  e[1+#e] = ""
-                  for i,y in ipairs(x) do
-                    e[#e] = tostring(i)
-                    status = g(y,e)
-                    if not status then return nil,e end -- if
-                  end -- for
-                  e[#e] = nil
-                  return true
-                else
-                  e[1+#e] = t_err:format(x_type)
-                  return nil,e
+walk = function(x,f)  -- apply f to leaves of tree x, depth first
+  local g
+  g = function(x,e) -- e = error stack
+     local x_type, status = type(x)
+     if x_type == "string" then
+      status = pcall(f,x)
+      if not status then e[1+#e] = a_err:format(x) end -- if
+          return status,e
+      elseif x_type == "table" then
+          e[1+#e] = ""
+          for i,y in ipairs(x) do
+            e[#e] = tostring(i)
+            status = g(y,e)
+            if not status then return nil,e end -- if
+          end -- for
+          e[#e] = nil
+          return true
+        else
+          e[1+#e] = t_err:format(x_type)
+          return nil,e
+        end -- if
+      end -- function
+      return g(x,{})
+end
+
+local file_err = "cannot open %s"
+out = function(x,file)
+     local o = assert(open(file,"w"),file_err:format(file))
+     local f = function(s)
+               o:write(s or "")
+               return true
+               end -- function
+     local status,err = walk(x,f)
+     o:close()
+     return status,err
+     end -- function
+
+------ markup stuff --------------
+--[[
+Two types of tag:
+
+ monotag    <foo attributestring />
+ tag    <foo attributestring> rope </foo>
+
+where attributestring could be empty.
+ ]]
+
+local monotagger = {
+__index = function (_,tag)
+         assert(type(tag) == "string")
+         return function (attr)
+                local o = {"<",tag}
+                if attr and (#attr > 0) then
+                  o[1+#o] = " "
+                  o[1+#o] = attr
                 end -- if
-              end -- function
-              return g(x,{})
-        end
+                o[1+#o] = " />"
+                return o
+                end -- function
+          end -- function
+         }
 
-       local file_err = "cannot open %s"
-       out = function(x,file)
-             local o = assert(open(file,"w"),file_err:format(file))
-             local f = function(s)
-                       o:write(s or "")
-                       return true
-                       end -- function
-             local status,err = walk(x,f)
-             o:close()
-             return status,err
-             end -- function
-
-       ------ markup stuff --------------
-       --[[
-       Two types of tag:
-
-         monotag    <foo attributestring />
-         tag    <foo attributestring> rope </foo>
-
-       where attributestring could be empty.
-         ]]
-
-       local monotagger = {
-       __index = function (_,tag)
-                 assert(type(tag) == "string")
-                 return function (attr)
-                        local o = {"<",tag}
-                        if attr and (#attr > 0) then
-                          o[1+#o] = " "
-                          o[1+#o] = attr
-                        end -- if
-                        o[1+#o] = " />"
-                        return o
-                        end -- function
-                  end -- function
-                 }
-
-       local bitagger = {
-       __index = function (_,tag)
-                 assert(type(tag) == "string")
-                 return function (attr)
-                        return function (rope)
-                         local o = {"<",tag}
-                         if attr and (#attr > 0) then
-                          o[1+#o] = " "
-                          o[1+#o] = attr
-                         end -- if
-                         o[1+#o] = ">"
-                         o[1+#o] = rope
-                         o[1+#o] = "</"
-                         o[1+#o] = tag
-                         o[1+#o] = ">"
-                         return o
-                  end end end
-                  }
-       MONOTAG, TAG = {},{}
-       setmetatable(MONOTAG,monotagger)
-       setmetatable(TAG,bitagger)
-       </pre>
+local bitagger = {
+__index = function (_,tag)
+         assert(type(tag) == "string")
+         return function (attr)
+                return function (rope)
+                 local o = {"<",tag}
+                 if attr and (#attr > 0) then
+                  o[1+#o] = " "
+                  o[1+#o] = attr
+                 end -- if
+                 o[1+#o] = ">"
+                 o[1+#o] = rope
+                 o[1+#o] = "</"
+                 o[1+#o] = tag
+                 o[1+#o] = ">"
+                 return o
+          end end end
+          }
+MONOTAG, TAG = {},{}
+setmetatable(MONOTAG,monotagger)
+setmetatable(TAG,bitagger)
+~~~
 
  **xhtml.lua**
 
-      <pre lang="lua">
-       --[[ The xhtml library exports
+~~~ lua
+--[[ The xhtml library exports
 
-         TAG, MONOTAG, BEGIN, END, TEXT, SPACE, REM and link
+ TAG, MONOTAG, BEGIN, END, TEXT, SPACE, REM and link
 
-       ]]
+]]
 
 
-       require "weave"
+require "weave"
 
-       local assert = assert
-       local type = type
-       local pairs = pairs
-       local print = print
-       local this = arg[0]
-       local leaf = this:match("\\([^\\]*)$")
-       local weave = weave
-       local walk = weave.walk
-       local out = weave.out
+local assert = assert
+local type = type
+local pairs = pairs
+local print = print
+local this = arg[0]
+local leaf = this:match("\\([^\\]*)$")
+local weave = weave
+local walk = weave.walk
+local out = weave.out
 
-       local concat = table.concat
+local concat = table.concat
 
-       module "xhtml"
+module "xhtml"
 
-       MONOTAG = weave.MONOTAG
-       TAG = weave.TAG
+MONOTAG = weave.MONOTAG
+TAG = weave.TAG
 
-       local doctype = [[
-       <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">]]
+local doctype = [[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">]]
 
-       local HTML = TAG.html [[
-       xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"]]
+local HTML = TAG.html [[
+xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"]]
 
-       local nl = "\n"
+local nl = "\n"
 
-       BEGIN = function(filename)
-               if filename then
-                 assert(type(filename) == "string","BEGIN takes a string or nil")
-               end -- if
-               return { FILE = filename or this..".html"; }
-               end
+BEGIN = function(filename)
+       if filename then
+         assert(type(filename) == "string","BEGIN takes a string or nil")
+       end -- if
+       return { FILE = filename or this..".html"; }
+       end
 
-       local META,LINK = MONOTAG.meta,MONOTAG.link
-       local HEAD,BODY,TITLE = TAG.head "",TAG.body,TAG.title ""
-       local css = [[rel="stylesheet" type="text/css" media="screen" href=""]]
+local META,LINK = MONOTAG.meta,MONOTAG.link
+local HEAD,BODY,TITLE = TAG.head "",TAG.body,TAG.title ""
+local css = [[rel="stylesheet" type="text/css" media="screen" href=""]]
 
-       END = function(rope)
-             local file = rope.FILE
-             local style = rope.STYLE
-             local doc = {
-              rope.DOCTYPE or doctype;
-              nl;
-              HTML {
-               nl;
-               HEAD {
-                nl;
-                TITLE (rope.TITLE or leaf);
-                nl;
-                META [[name="Generator" content="Lua"]];
-                nl;
-                META [[name="MSSmartTagsPreventParsing" content="TRUE"]];
-                nl;
-                rope.HEAD or "";
-                style and LINK {css;style;'"'} or "";
-                    };
-                nl;
-                BODY (rope.ATTR or "") (rope.BODY or "");
-                nl;
-                  };
-                          }
-              status, err = out(doc,file)
-              if not status then print(concat(err,'.')) end -- if
-              end --function
+END = function(rope)
+     local file = rope.FILE
+     local style = rope.STYLE
+     local doc = {
+      rope.DOCTYPE or doctype;
+      nl;
+      HTML {
+       nl;
+       HEAD {
+        nl;
+        TITLE (rope.TITLE or leaf);
+        nl;
+        META [[name="Generator" content="Lua"]];
+        nl;
+        META [[name="MSSmartTagsPreventParsing" content="TRUE"]];
+        nl;
+        rope.HEAD or "";
+        style and LINK {css;style;'"'} or "";
+            };
+        nl;
+        BODY (rope.ATTR or "") (rope.BODY or "");
+        nl;
+          };
+                  }
+      status, err = out(doc,file)
+      if not status then print(concat(err,'.')) end -- if
+      end --function
 
-       local entity = {
-         ["<"] = "&lt;",
-         [">"] = "&gt;",
-         ["&&"] = "&amp;",
-                      }
-       local catchall = "(.)"
-       local entify = function (c)
-                      local n,fmts = c:byte(),"&#%s;"
-                      return (n > 127) and fmts:format(n) or c
-                      end -- function
-
-       TEXT = function(rope)
-              local o = {}
-              local f = function(s)
-                  local status = type(s) == "string"
-                  if status then
-                    for symb,ent in pairs(entity) do
-                      s = s:gsub(symb,ent)
-                    end -- for
-                    s = s:gsub(catchall,entify)
-                    o[1+#o] = s
-                  end -- if
-                   return status
-                 end -- function
-              walk(rope,f)
-              return o
+local entity = {
+ ["<"] = "&lt;",
+ [">"] = "&gt;",
+ ["&&"] = "&amp;",
+              }
+local catchall = "(.)"
+local entify = function (c)
+              local n,fmts = c:byte(),"&#%s;"
+              return (n > 127) and fmts:format(n) or c
               end -- function
 
-       SPACE = function(n)
-               assert(type(n) == "number","SPACE takes a number")
-               local s = "&nbsp;"
-               return s:rep(n)
-               end -- function
+TEXT = function(rope)
+      local o = {}
+      local f = function(s)
+          local status = type(s) == "string"
+          if status then
+            for symb,ent in pairs(entity) do
+              s = s:gsub(symb,ent)
+            end -- for
+            s = s:gsub(catchall,entify)
+            o[1+#o] = s
+          end -- if
+           return status
+         end -- function
+      walk(rope,f)
+      return o
+      end -- function
 
-       REM = function(s) return { "\n<!-- ";s;" -->\n"; } end -- function
-       link = function(url) return TAG.a { 'href="'; url; '"'; } end -- function
-    </pre>
+SPACE = function(n)
+       assert(type(n) == "number","SPACE takes a number")
+       local s = "&nbsp;"
+       return s:rep(n)
+       end -- function
+
+REM = function(s) return { "\n<!-- ";s;" -->\n"; } end -- function
+link = function(url) return TAG.a { 'href="'; url; '"'; } end -- function
+~~~
