@@ -235,7 +235,7 @@ window containing "&lt;lua&gt;print(text:upper())&lt;/lua&gt;hello" would
 convert its contents to "HELLO". Yes, I know it is contrived, but
 I hope it shows the general principle.
 
-<img src="http://mysite.mweb.co.za/residents/sdonovan/lua/screen.png"/>
+<img src="/attachments/porting-lua-to-risc-os.png"/>
 
 This shows the final dialogue box when the
 following program is run.
