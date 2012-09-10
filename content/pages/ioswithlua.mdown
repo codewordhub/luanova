@@ -203,7 +203,7 @@ The work is done in the method, <strong>evaluate</strong>, which is shown in Lis
 
 <div class="panelHeader">Listing 5: LuaTrial's <strong>evaluate</strong> method.</div>
 
-<code><pre lang="c">
+~~~objective-c
 -(void)evaluate {
     int err;
 
@@ -240,7 +240,7 @@ The work is done in the method, <strong>evaluate</strong>, which is shown in Lis
         output.text = outputNS;
     }
 }
-</pre></code>
+~~~
 
 <p>Note the error checking and handling is minimal.  A little additional effort could yield a nice Lua shell&mdash;not that you could actually put it in the App Store...</p>
 
