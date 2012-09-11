@@ -1,19 +1,16 @@
 GIT
-  remote: git://github.com/postmodern/pygments.rb.git
-  revision: 040272f9020d83353eaf6f2a4cd13beca289692b
-  branch: gemspec_fix
+  remote: git://github.com/rubychan/coderay.git
+  revision: b081c1f3ab670301199005c04ecbc11614593285
+  branch: lua-scanner
   specs:
-    pygments.rb (0.2.13)
-      rubypython (~> 0.5)
+    coderay (1.0.7.rc2)
 
 GEM
   remote: http://rubygems.org/
   specs:
     RedCloth (4.2.9)
-    blankslate (3.1.2)
     daemons (1.1.9)
     eventmachine (0.12.10)
-    ffi (1.0.11)
     foreman (0.57.0)
       thor (>= 0.13.6)
     haml (3.1.7)
@@ -31,9 +28,6 @@ GEM
     rack-rewrite (1.2.1)
     rdiscount (1.6.8)
     redcarpet (2.1.1)
-    rubypython (0.6.2)
-      blankslate (>= 2.1.2.3)
-      ffi (~> 1.0.7)
     sass (3.2.1)
     shotgun (0.9)
       rack (>= 1.0)
@@ -52,9 +46,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  coderay!
   foreman
   nesta
-  pygments.rb!
   rack-rewrite
   redcarpet
   thin

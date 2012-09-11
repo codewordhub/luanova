@@ -1,11 +1,9 @@
 require 'redcarpet'
-require 'pygments'
-
-# RubyPython.configure :python_exe => 'python2.6'
+require 'coderay'
 
 class Syntactical < Redcarpet::Render::HTML
   def block_code(code, language)
-    Pygments.highlight(code, lexer: language)
+    CodeRay.scan(code, language).div(:css => :class)
   end
 end
 
