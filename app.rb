@@ -1,7 +1,7 @@
 require 'redcarpet'
 require 'pygments'
 
-Pygments.start nil, :python_exe => 'env python' # /usr/local/bin/python on heroku
+Pygments.start nil, :python_exe => '/usr/local/bin/python' # on heroku
 
 class Syntactical < Redcarpet::Render::HTML
   def block_code(code, language)
