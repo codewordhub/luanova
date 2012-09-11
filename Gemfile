@@ -5,7 +5,7 @@ gem 'nesta'
 gem 'redcarpet'
 gem 'thin'
 gem 'rack-rewrite'
-gem 'pygments.rb'
+gem 'pygments.rb', :git => 'git://github.com/akzhan/pygments.rb.git', :branch => 'rubypython-0.6'
 
 group :development do
   gem 'foreman'
