@@ -203,7 +203,7 @@ The work is done in the method, <strong>evaluate</strong>, which is shown in Lis
 
 <div class="panelHeader">Listing 5: LuaTrial's <strong>evaluate</strong> method.</div>
 
-~~~objective-c
+~~~c
 -(void)evaluate {
     int err;
 
