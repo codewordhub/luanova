@@ -5,7 +5,7 @@ gem 'nesta'
 gem 'redcarpet'
 gem 'thin'
 gem 'rack-rewrite'
-gem 'pygments.rb'
+gem 'pygments.rb', :git => 'git://github.com/postmodern/pygments.rb.git', :branch => 'gemspec_fix'
 
 group :development do
   gem 'foreman'

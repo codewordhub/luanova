@@ -1,7 +1,7 @@
 require 'redcarpet'
 require 'pygments'
 
-RubyPython.configure :python_exe => 'python2.6'
+# RubyPython.configure :python_exe => 'python2.6'
 
 class Syntactical < Redcarpet::Render::HTML
   def block_code(code, language)
