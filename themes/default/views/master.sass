@@ -245,3 +245,28 @@ nav.categories
 
 div.feed
   margin: $base-vertical-margin 0
+
+// Contain floats: h5bp.com/q
+.group:before, .group:after
+  content: ""
+  display: table
+
+.group:after
+  clear: both
+
+.group
+  *zoom: 1
+
+// Avatar
+div#author_biography
+  .avatar
+    border: 1px solid #EDD
+    padding: 12px
+    margin-right: 0.8em
+    margin-bottom: 1em
+    float: left
+    -webkit-box-shadow: 0px 5px 10px #CECACA
+    -moz-box-shadow: 0px 5px 10px #CECACA
+    box-shadow: 0px 5px 10px #CECACA
+  .avatar img
+    margin: 0

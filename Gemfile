@@ -6,6 +6,7 @@ gem 'redcarpet'
 gem 'thin'
 gem 'rack-rewrite'
 gem 'coderay', :git => 'git://github.com/rubychan/coderay.git', :branch => 'lua-scanner'
+gem 'gravatarify', '~> 3.0.0'
 
 group :development do
   gem 'foreman'

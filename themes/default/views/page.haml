@@ -4,6 +4,7 @@
 #content
   %article(role="main")
     ~ @page.to_html(self)
+    = author_biography
 
     %section.pages
       = article_summaries(@page.pages)

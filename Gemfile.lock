@@ -13,6 +13,7 @@ GEM
     eventmachine (0.12.10)
     foreman (0.57.0)
       thor (>= 0.13.6)
+    gravatarify (3.0.0)
     haml (3.1.7)
     nesta (0.9.13)
       RedCloth (~> 4.2)
@@ -48,6 +49,7 @@ PLATFORMS
 DEPENDENCIES
   coderay!
   foreman
+  gravatarify (~> 3.0.0)
   nesta
   rack-rewrite
   redcarpet
