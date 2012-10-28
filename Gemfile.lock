@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/rubychan/coderay.git
-  revision: b081c1f3ab670301199005c04ecbc11614593285
+  revision: 0392439f9aaa5dde7734743ab5a88193257ec722
   branch: lua-scanner
   specs:
-    coderay (1.0.7.rc2)
+    coderay (1.0.8.rc1)
 
 GEM
   remote: http://rubygems.org/
