@@ -7,7 +7,7 @@ gem 'unicorn'
 gem 'rack-rewrite'
 # gem 'coderay', :path => '../opensource/coderay'
 gem 'coderay', :git => 'git://github.com/rubychan/coderay.git', :branch => 'lua-scanner'
-gem 'gravatarify', '~> 3.0.0'
+gem 'gravatarify'
 
 group :development do
   gem 'foreman'
