@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
-ruby "1.9.3"
+ruby "2.0.0"
 
-gem 'nesta'
+gem 'nesta', github: 'nathany/nesta', branch: 'fork'
 gem 'redcarpet'
-gem 'thin'
+gem 'unicorn'
 gem 'rack-rewrite'
 # gem 'coderay', :path => '../opensource/coderay'
 gem 'coderay', :git => 'git://github.com/rubychan/coderay.git', :branch => 'lua-scanner'
