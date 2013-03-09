@@ -1,10 +1,9 @@
 require 'redcarpet'
-require 'coderay'
+require 'rouge/plugins/redcarpet'
 
 class Syntactical < Redcarpet::Render::HTML
-  def block_code(code, language)
-    CodeRay.scan(code, language).div(:css => :class)
-  end
+  include Rouge::Plugins::Redcarpet
+  include Redcarpet::Render::SmartyPants
 end
 
 class SyntacticalTemplate < Tilt::RedcarpetTemplate::Redcarpet2
