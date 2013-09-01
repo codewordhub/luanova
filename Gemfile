@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 ruby "2.0.0"
 
-gem 'nesta', github: 'nathany/nesta', branch: 'fork'
+gem 'nesta'
 gem 'redcarpet'
 gem 'unicorn'
 gem 'rack-rewrite'
