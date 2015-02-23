@@ -2,6 +2,3 @@
 *.sublime-workspace
 .sass-cache
 .tags*
-
-*.xml
-*.pdf
