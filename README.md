@@ -15,7 +15,10 @@ This is the content for the Lua Nova web site.
 
 ### Deployment
 
-CircleCI automatically deploys the website when changes are merged to master. It takes about 50 seconds to deploy.
+CircleCI automatically deploys the website when changes are merged to master. It takes about 30 seconds to deploy.
+
+* [luanova.org.s3-website-us-east-1.amazonaws.com](http://luanova.org.s3-website-us-east-1.amazonaws.com/) is the website endpoint on Amazon S3.
+* [luanova.org](https://luanova.org/) is cached by CloudFlare.
 
 ### License
 
