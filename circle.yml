@@ -17,7 +17,6 @@ dependencies:
 test:
   pre:
     - pygmentize -V
-    - hugo version
   override:
     - sassc sass/all.sass static/all.css --style compressed
     - hugo -v
