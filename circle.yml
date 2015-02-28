@@ -7,7 +7,6 @@ machine:
 
 dependencies:
   pre:
-    - sudo pip install pygments
     - bash ./ci-install-sassc.sh
     - bash ./ci-install-hugo.sh
     - go get -v github.com/nathany/s3up
@@ -16,8 +15,10 @@ dependencies:
 
 
 test:
-  override:
+  pre:
     - pygmentize -V
+    - hugo version
+  override:
     - sassc sass/all.sass static/all.css --style compressed
     - hugo -v
   post:
