@@ -235,7 +235,9 @@ There are two sorts of markup: "monotags" and "tags".
 
 By a monotag I mean something like
 
-    <tag_name attr />
+{{< highlight html >}}
+<tag_name attr />
+{{< /highlight >}}
 
 and we can implement this as a function from ropes to ropes:
 
@@ -245,7 +247,9 @@ function(attr) return {"<tag_name ",attr," />"} end
 
 By a tag I mean something like
 
-    <tag_id attr>stuff</tag_id>
+{{< highlight html >}}
+<tag_id attr>stuff</tag_id>
+{{< /highlight >}}
 
 which we can implement as a function from ropes to functions from
 ropes to ropes:
