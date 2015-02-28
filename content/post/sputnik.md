@@ -133,8 +133,8 @@ As the node is edited, each revision is saved in a similar format, **000002**, e
 Before actually starting with code, it's useful to have a handy shortcut to the Lua executable used by Sputnik.  I suggest creating a little executable script like this on your path:
 
 {{< highlight bash >}}
-  $> cat ~/bin/slua
-  ~/sputnik/bin/lua -lluarocks.require $*
+$> cat ~/bin/slua
+~/sputnik/bin/lua -lluarocks.require $*
 {{< /highlight >}}
 
 Before we actually get round to generating dynamic content, here is a quick review of [Cosmo](http://cosmo.luaforge.net/),  which is a powerful template engine used by Sputnik.
@@ -176,14 +176,14 @@ print(cosmo.fill(template, {
 {{< /highlight >}}
 
 {{< highlight bash >}}
-  ~$ slua testcosmo.lua
+~$ slua testcosmo.lua
 {{< /highlight >}}
 
 {{< highlight html >}}
-  <h1>My List</h1>
-  <ul>
-   <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li>
-  </ul>
+<h1>My List</h1>
+<ul>
+  <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li>
+</ul>
 {{< /highlight >}}
 
 _Subtemplates_ are a powerful feature which makes generating HTML straightforward.
