@@ -2,8 +2,8 @@ HUGO_VERSION=0.13
 
 set -x
 set -e
-if [ ! -e $CIRCLE_BUILD_DIR/bin/hugo ] || ! [[ `hugo version` =~ v$HUGO_VERSION ]]; then
-  wget https://github.com/spf13/hugo/releases/download/v$HUGO_VERSION/hugo_$HUGO_VERSION_linux_amd64.tar.gz
-  tar xvzf hugo_$HUGO_VERSION_linux_amd64.tar.gz
-  cp hugo_$HUGO_VERSION_linux_amd64/hugo_$HUGO_VERSION_linux_amd64 $CIRCLE_BUILD_DIR/bin/hugo
+if [ ! -e $CIRCLE_BUILD_DIR/bin/hugo ] || ! [[ `hugo version` =~ v${HUGO_VERSION} ]]; then
+  wget https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux_amd64.tar.gz
+  tar xvzf hugo_${HUGO_VERSION}_linux_amd64.tar.gz
+  cp hugo_${HUGO_VERSION}_linux_amd64/hugo_${HUGO_VERSION}_linux_amd64 $CIRCLE_BUILD_DIR/bin/hugo
 fi
