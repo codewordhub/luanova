@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="{{ .Description }}">
+  <meta name="keywords" content="{{ .Keywords }}">
+  <title>{{ .Title }}</title>
+  <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="stylesheet" href="/all.css">
+  <link type='text/css' rel='stylesheet' href='https://fonts.googleapis.com/css?family=Inconsolata'>
+  <link href="{{ .RSSlink }}" rel="alternate" type="application/atom+xml"  title="{{ .Site.Title }}">
+</head>
+<body>
+
+  <div id="container">
+
+    <header role="banner">
+    <hgroup>
+      <h1>{{ .Site.Title }}</h1>
+      <h2>{{ .Site.Params.Subtitle }}</h2>
+    </hgroup>
+  </header>
+
+

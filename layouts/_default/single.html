@@ -1,0 +1,16 @@
+{{ partial "header.html" . }}
+
+<div id="content">
+
+  <article role="main">
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+    {{ partial "author.html" . }}
+    <footer>
+      <p class="meta">Published on {{ .Date.Format "2 Jan 2006" }}</p>
+    </footer>
+  </article>
+
+</div>
+
+{{ partial "footer.html" . }}

@@ -1,0 +1,31 @@
+{{ partial "header.html" . }}
+
+<article role="main">
+  <section class="articles">
+    <ol>
+      {{ range .Data.Pages }}
+        <li>
+          <article>
+            <header>
+              <h1><a href="{{ .RelPermalink }}">{{ .Title }}</a></h1>
+            </header>
+            <p>{{ .Summary }}</p>
+            <p class="read_more"><a href="{{ .RelPermalink }}">Continue reading</a></p>
+            <footer>
+              <p class="meta">
+              Published
+              on {{ .Date.Format "2 January 2006" }}
+              by
+              {{ $author := index .Site.Params.Authors .Params.author }}
+              {{ $author.name }}
+              </p>
+              <!-- categories, author -->
+            </footer>
+          </article>
+        </li>
+      {{ end }}
+    </ol>
+  </section>
+</article>
+
+{{ partial "footer.html" . }}

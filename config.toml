@@ -1,0 +1,56 @@
+baseurl = "https://www.luanova.org"
+languageCode = "en-us"
+title = "lua nova"
+pygmentsuseclasses = true
+
+[permalinks]
+post = "/:filename/"
+about = "/:filename/"
+
+[Params]
+Subtitle = "welcome to the moon"
+GaugesId = "505378cd613f5d0d9d000047"
+
+[Params.Authors]
+
+  [Params.Authors.jimwhitehead]
+    name = "Jim Whitehead"
+    email = "jnwhiteh@gmail.com"
+    avatar = "https://gravatar.com/avatar/fdc6538b29ef166e8d8b9695bae7557b.jpg?s=100"
+    bio = ""
+
+  [Params.Authors.mathewburke]
+    name = "Mathew Burke"
+    email = "mmburke@gwu.edu"
+    avatar = "https://gravatar.com/avatar/10ef040c60adf9f2da8797cac0d8ff77.jpg?s=100"
+    bio = ""
+
+  [Params.Authors.nathany]
+    name = "Nathan Youngman"
+    email = "git@nathany.com"
+    avatar = "https://gravatar.com/avatar/c91c77ba3578511cb7e67bedf535d457.jpg?s=100"
+    bio = "Nathan is a web developer and instigator of Lua Nova. He can be reached at [@nathany](https://twitter.com/nathany/)."
+    twitter = "nathany"
+    blog = "http://nathany.com/"
+
+  [Params.Authors.ryanpusztai]
+    name = "Ryan Pusztai"
+    email = "rpusztai@gmail.com"
+    avatar = "https://gravatar.com/avatar/7b8dde2cc7dc4635ff0d587232b1f6a2.jpg?s=100"
+    bio = ""
+
+  [Params.Authors.stevejdonovan]
+    name = "Steve Donovan"
+    email = "steve.j.donovan@gmail.com"
+    avatar = "https://gravatar.com/avatar/c8e0f64aead1b36c9019c143b9ad6e43.jpg?s=100"
+    bio = "Steve is a developer in Johannesburg, South Africa. Visit his [personal blog](http://steved-imaginaryreal.blogspot.ca/)."
+    blog = "http://steved-imaginaryreal.blogspot.ca/"
+
+  [Params.Authors.wra1th]
+    name = "Gavin Wraith"
+    email = "gavin@wra1th.plus.com"
+    avatar = "https://gravatar.com/avatar/c202741728e8804561d5529c8c6baa57.jpg?s=100"
+    bio = ""
+
+
+

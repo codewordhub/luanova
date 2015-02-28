@@ -1,0 +1,8 @@
+{{ $author := index .Site.Params.Authors .Params.author }}
+
+<div class="group" id="author_biography">
+  <div class="avatar"><img alt="{{ $author.name }}" height="100" src="{{ $author.avatar }}" width="100"></div>
+  <p>
+    <strong>{{ $author.name }}</strong> {{ $author.bio | markdownify }}
+  </p>
+</div>
