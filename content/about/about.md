@@ -2,6 +2,8 @@
 title = "About Lua Nova"
 keywords = "lua,programming"
 description = "Lua Nova, which is Portuguese for new moon, is an exposition of the Lua programming language in practice."
+author = "nathany"
+date = "2007-11-01"
 +++
 
 <a href="http://lua.org">Lua</a> is a light-weight scripting language developed at PUC-Rio in Brazil. <em>"The simplest thing that could possibly work"</em> is the mantra of the Lua founders, and it shows.

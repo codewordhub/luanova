@@ -150,8 +150,8 @@ Runtime:addEventListener('enterFrame', update)
 
 <div class="panelHeader">Figure 1: My Corona 'IDE'</div>
 
-<a href="/attachments/CoronaIDE.png">
-<img src="/attachments/CoronaIDE.png" width="760px" style="margin: 10px" /></a>
+<a href="/i/corona_ide.png">
+<img src="/i/corona_ide.png" width="760px" style="margin: 10px" /></a>
 
 <div class="panelFooter">Clockwise from the left: Corona simulator, Emacs with two windows (a source file and project directory), the Corona terminal (for debugging info).</div>
 

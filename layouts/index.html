@@ -9,10 +9,16 @@
             <header>
               <h1><a href="{{ .RelPermalink }}">{{ .Title }}</a></h1>
             </header>
-            <p>{{ .Description }}</p>
+            <p>{{ .Summary }}</p>
             <p class="read_more"><a href="{{ .RelPermalink }}">Continue reading</a></p>
             <footer>
-              <p class="meta">Published on {{ .Date.Format "2 January 2006" }}</p>
+              <p class="meta">
+              Published
+              on {{ .Date.Format "2 January 2006" }}
+              by
+              {{ $author := index .Site.Params.Authors .Params.author }}
+              {{ $author.name }}
+              </p>
               <!-- categories, author -->
             </footer>
           </article>
