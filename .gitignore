@@ -2,3 +2,4 @@
 *.sublime-workspace
 .sass-cache
 .tags*
+public
