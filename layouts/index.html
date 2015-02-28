@@ -1,18 +1,25 @@
 {{ partial "header.html" . }}
 
-<ol>
-  {{ range .Data.Pages }}
-    <li>
-      <article>
-        <header>
-          <h1><a href="{{ .RelPermalink }}">{{ .Title }}</a></h1>
-        </header>
-        <p>{{ .Description }}</p>
-        <p class="meta">Published {{ .Date.Format "2 Jan 2006" }}</p>
-        <!-- categories, author -->
-      </article>
-    </li>
-  {{ end }}
-</ol>
+<article role="main">
+  <section class="articles">
+    <ol>
+      {{ range .Data.Pages }}
+        <li>
+          <article>
+            <header>
+              <h1><a href="{{ .RelPermalink }}">{{ .Title }}</a></h1>
+            </header>
+            <p>{{ .Description }}</p>
+            <p class="read_more"><a href="{{ .RelPermalink }}">Continue reading</a></p>
+            <footer>
+              <p class="meta">Published on {{ .Date.Format "2 January 2006" }}</p>
+              <!-- categories, author -->
+            </footer>
+          </article>
+        </li>
+      {{ end }}
+    </ol>
+  </section>
+</article>
 
 {{ partial "footer.html" . }}
