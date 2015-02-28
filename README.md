@@ -15,7 +15,7 @@ This is the content for the Lua Nova web site.
 
 ### Deployment
 
-CircleCI automatically deploys the website when changes are merged to master. It takes about 20 seconds to deploy.
+CircleCI automatically deploys the website when changes are merged to master. It takes about 50 seconds to deploy.
 
 ### License
 

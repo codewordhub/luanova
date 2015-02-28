@@ -1,4 +1,4 @@
-baseurl = "https://www.luanova.org"
+baseurl = "https://luanova.org"
 languageCode = "en-us"
 title = "lua nova"
 pygmentsuseclasses = true
