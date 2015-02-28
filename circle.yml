@@ -7,7 +7,7 @@ machine:
 
 dependencies:
   pre:
-    - apt-get install python3-pygments
+    - sudo apt-get update; sudo apt-get install python3-pygments
     - bash ./ci-install-sassc.sh
     - bash ./ci-install-hugo.sh
     - go get -v github.com/nathany/s3up
