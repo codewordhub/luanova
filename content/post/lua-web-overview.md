@@ -1,8 +1,9 @@
-Date: 2008-03-15 17:50:03
-Summary: ...
-Author: nathany
-
-# Lua and the web: an overview
++++
+title = "Lua and the web: an overview"
+date = "2008-03-15"
+description = "..."
+author = "nathany"
++++
 
 Lua is among the top 20 most popular programming languages, according to the <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">TIOBE Programming Community index</a>. Lua is also faster and has a smaller memory footprint than other interpreted scripting languages (compare with <a href="http://shootout.alioth.debian.org/gp4/benchmark.php?test=all&amp;lang=lua&amp;lang2=ruby">Ruby</a>, <a href="http://shootout.alioth.debian.org/gp4/benchmark.php?test=all&amp;lang=lua&amp;lang2=python">Python</a>, <a href="http://shootout.alioth.debian.org/gp4/benchmark.php?test=all&amp;lang=lua&amp;lang2=php">PHP</a> and <a href="http://shootout.alioth.debian.org/gp4/benchmark.php?test=all&amp;lang=lua&amp;lang2=javascript">JavaScript SpiderMonkey</a>).
 

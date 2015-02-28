@@ -1,8 +1,9 @@
-Date: 2007-11-10 22:47:35
-Summary: Setting up Lua on Mac OS X.
-Author: nathany
-
-# Launch: getting Lua installed
++++
+title = "Launch: getting Lua installed"
+date = "2007-11-10"
+description = "Setting up Lua on Mac OS X."
+author = "nathany"
++++
 
 To play with Lua you need to download the source code and compile it. This isn't as scary as it sounds, as Lua is a positively _tiny_ download and doesn't depend on anything more than a C compiler. Lua is written in standard ANSI C, so any one should work. I will give instructions for **Mac OS X**, because that's what I use.
 

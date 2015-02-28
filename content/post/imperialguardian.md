@@ -1,8 +1,10 @@
-Date: 2010-01-22 04:34:33
-Summary: ...
-Author: wra1th
++++
+title = "Guardian of the Imperial Inkstand"
+date = "2010-01-22"
+description = "..."
+author = "wra1th"
++++
 
-# Guardian of the Imperial Inkstand
 
 _Some experiences of using Lua to create and maintain websites
 for other people_.

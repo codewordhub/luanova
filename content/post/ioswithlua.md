@@ -1,8 +1,9 @@
-Date: 2010-09-23 03:20:33
-Summary: ...
-Author: mathewburke
-
-# iOS Programming with Lua
++++
+title = "iOS Programming with Lua"
+date = "2010-09-23"
+description = "..."
+author = "mathewburke"
++++
 
 <h3>Matthew Burke, Bluedino Software</h3>
 

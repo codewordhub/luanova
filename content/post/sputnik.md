@@ -1,8 +1,9 @@
-Date: 2009-11-11 22:08:07
-Summary: ...
-Author: stevejdonovan
-
-# Sputnik: An Introduction I
++++
+title = "Sputnik: An Introduction I"
+date = "2009-11-11"
+description = "..."
+author = "stevejdonovan"
++++
 
 ## Beyond WikiWiki
 

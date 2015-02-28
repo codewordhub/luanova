@@ -1,8 +1,9 @@
-Date: 2007-11-04 06:08:09
-Summary: Lua's use in Adobe Lightroom inspired a look.
-Author: nathany
-
-# Lua: how we first met
++++
+title = "Lua: how we first met"
+date = "2007-11-04"
+description = "Lua's use in Adobe Lightroom inspired a look."
+author = "nathany"
++++
 
 This past summer I evaluated both Apple Aperture and Adobe Lightroom for managing my digital photographs. You see, iPhoto 6 was getting a bit sluggish, Photoshop Elements even more so (not yet having Intel support). To top it off, I was considering a Digital SLR, so I'd need something that could read RAW.
 

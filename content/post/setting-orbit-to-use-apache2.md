@@ -1,8 +1,9 @@
-Date: 2010-09-08 05:44:23
-Summary: ...
-Author: ryanpusztai
-
-# Setting Orbit to use Apache2
++++
+title = "Setting Orbit to use Apache2"
+date = "2010-09-08"
+description = "..."
+author = "ryanpusztai"
++++
 
 This article will cover how to install [Lua Orbit](http://keplerproject.github.com/orbit/index.html) on an Ubuntu 8.04+ server. This will explain how to setup Apache2 and Xavante on the server. This allows for production code to run through Apache2 and then develop using Xavante. To hook Orbit to Apache2 we will be using **FastCGI** for the best performance.
 

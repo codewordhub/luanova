@@ -1,9 +1,9 @@
-Date: 2010-05-19 23:17:34
-Summary: ...
-Author: jimwhitehead
-
-
-# Authentication-based permission groups in Sputnik
++++
+title = "Authentication-based permission groups in Sputnik"
+date = "2010-05-19"
+description = "..."
+author = "jimwhitehead"
++++
 
 [Sputnik](http://sputnik.freewisdom.org/) is a novel document-storage-based wiki written in Lua which
 has been previously featured on LuaNova. Today I'd like to share my

@@ -1,8 +1,9 @@
-Date: 2008-03-15 17:58:07
-Summary: ...
-Author: nathany
-
-# The Golden Wombat of Destiny
++++
+title = "The Golden Wombat of Destiny"
+date = "2008-03-15"
+description = "..."
+author = "nathany"
++++
 
 <em>The Golden Wombat of Destiny</em> was a text adventure game (interactive fiction) written by Huw Collingbourne in early `80s. I honestly never got very far in that game, preferring Colossal Cave and The Hitchhiker's Guide to the Galaxy in the days of the Kaypro IV.
 

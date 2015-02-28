@@ -1,8 +1,9 @@
-Date: 2010-03-03 02:20:37
-Summary: ...
-Author: wra1th
-
-# Porting Lua to RISC OS
++++
+title = "Porting Lua to RISC OS"
+date = "2010-03-03"
+description = "..."
+author = "wra1th"
++++
 
 I do not expect many users of Lua will have heard of the
 operating system known as RISC OS. They are more likely,

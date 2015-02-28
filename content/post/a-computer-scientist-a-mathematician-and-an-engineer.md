@@ -1,8 +1,9 @@
-Date: 2007-11-10 18:44:00
-Summary: Thoughts on Lua, simple features that gel well together.
-Author: nathany
-
-# A Computer Scientist, a Mathematician and an Engineer...
++++
+title = "A Computer Scientist, a Mathematician and an Engineer..."
+date = "2007-11-10"
+description = "Thoughts on Lua, simple features that gel well together."
+author = "nathany"
++++
 
 The **Lua programming language** was developed by [three members](http://www.lua.org/authors.html) of Tecgraf, the Computer Graphics Technology Group of PUC-Rio, a University in Rio de Janeiro. Not merely an academic pursuit, it was developed primarily as a replacement for SOL (meaning "sun") and DEL (data entry language) for Brazilian oil company Petrobras.
 
