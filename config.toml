@@ -30,8 +30,6 @@ GaugesId = "505378cd613f5d0d9d000047"
     email = "git@nathany.com"
     avatar = "https://gravatar.com/avatar/c91c77ba3578511cb7e67bedf535d457.jpg?s=100"
     bio = "Nathan is a web developer and instigator of Lua Nova. He can be reached at [@nathany](https://twitter.com/nathany/)."
-    twitter = "nathany"
-    blog = "http://nathany.com/"
 
   [Params.Authors.ryanpusztai]
     name = "Ryan Pusztai"
@@ -44,7 +42,6 @@ GaugesId = "505378cd613f5d0d9d000047"
     email = "steve.j.donovan@gmail.com"
     avatar = "https://gravatar.com/avatar/c8e0f64aead1b36c9019c143b9ad6e43.jpg?s=100"
     bio = "Steve is a developer in Johannesburg, South Africa. Visit his [personal blog](http://steved-imaginaryreal.blogspot.ca/)."
-    blog = "http://steved-imaginaryreal.blogspot.ca/"
 
   [Params.Authors.wra1th]
     name = "Gavin Wraith"
