@@ -217,7 +217,7 @@ between registers, something which can be exploited by this syntax.
 There are a few other extensions: backslash is sugar for **function** and '=>' is sugar
 for **return**.
 
-<img src="http://mysite.mweb.co.za/residents/sdonovan/lua/untangle.png"/>
+<img src="/images/untangle.png"/>
 
 This is a
 texteditor window displaying a short RiscLua script that uses Roberto's
@@ -236,7 +236,7 @@ window containing "&lt;lua&gt;print(text:upper())&lt;/lua&gt;hello" would
 convert its contents to "HELLO". Yes, I know it is contrived, but
 I hope it shows the general principle.
 
-<img src="/i/porting-lua-to-risc-os.png"/>
+<img src="/images/porting-lua-to-risc-os.png"/>
 
 This shows the final dialogue box when the
 following program is run.
