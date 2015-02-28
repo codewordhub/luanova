@@ -227,7 +227,7 @@ label,
 
 then our rope is just the value of
 
-{{< /highlight >}}
+{{< highlight lua >}}
 link "http://luanova.org/" "LuaNova"
 {{< /highlight >}}
 
