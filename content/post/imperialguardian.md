@@ -5,7 +5,6 @@ description = "..."
 author = "wra1th"
 +++
 
-
 _Some experiences of using Lua to create and maintain websites
 for other people_.
 
@@ -42,10 +41,10 @@ of friendliness they may want to express themselves personally. It
 is for that reason that I recommend that during the development phase
 of the website each page should contain within its header the tags
 
-~~~html
+{{< highlight html >}}
 <meta  http-equiv="pragma" content="no-cache" />
 <meta  http-equiv="cache-control" content="no-cache" />
-~~~
+{{< /highlight >}}
 
 because otherwise you will have the committee chairman sending you
 messages accusing you of not getting on with the job: "Hi Gavin,
@@ -140,7 +139,7 @@ office, use Google.
 
 [Gavin Wraith](http://www.wra1th.plus.com/)
 
-##Ropes are better than Strings: A Technical Appendix
+## Ropes are better than Strings: A Technical Appendix
 
 In Lua strings are immutable values. This means that you
 should avoid building up strings out of small pieces,
@@ -163,15 +162,15 @@ we define the datatype of "ropes" recursively by:
 
 In Lua syntax, a rope either looks like
 
-~~~ lua
+{{< highlight lua >}}
 [[ ..... ]]
-~~~
+{{< /highlight >}}
 
 or like
 
-~~~ lua
+{{< highlight lua >}}
 { ........ }
-~~~
+{{< /highlight >}}
 
 where the contents of the braces are a comma separated list of
 ropes.
@@ -184,11 +183,13 @@ string-concatenation at all.
 
 So this code
 
-    <a href="http://luanova.org/">LuaNova</a>
+{{< highlight html >}}
+<a href="http://luanova.org/">LuaNova</a>
+{{< /highlight >}}
 
 can be obtained by printing out the rope
 
-~~~ lua
+{{< highlight lua >}}
 {
 {
 [[<a ]],
@@ -202,11 +203,11 @@ can be obtained by printing out the rope
 [[LuaNova]],
 [[</a>]],
 }
-~~~
+{{< /highlight >}}
 
 If we define
 
-~~~ lua
+{{< highlight lua >}}
 link = function (url)
       return function (label)
               return {
@@ -222,13 +223,13 @@ link = function (url)
 label,
 [[</a>]],
 } end end
-~~~
+{{< /highlight >}}
 
 then our rope is just the value of
 
-~~~
+{{< /highlight >}}
 link "http://luanova.org/" "LuaNova"
-~~~
+{{< /highlight >}}
 
 There are two sorts of markup: "monotags" and "tags".
 
@@ -238,9 +239,9 @@ By a monotag I mean something like
 
 and we can implement this as a function from ropes to ropes:
 
-~~~ lua
+{{< highlight lua >}}
 function(attr) return {"<tag_name ",attr," />"} end
-~~~
+{{< /highlight >}}
 
 By a tag I mean something like
 
@@ -249,13 +250,13 @@ By a tag I mean something like
 which we can implement as a function from ropes to functions from
 ropes to ropes:
 
-~~~ lua
+{{< highlight lua >}}
 function(attr)
 return function(stuff) return
        {"<tag_id ",attr,">",stuff,"</tag_id>"}
        end
 end
-~~~
+{{< /highlight >}}
 
 To simplify construction of webpages I invented a little language,
 which I called _Weave_, as a fragment of Lua using strings and ropes
@@ -276,7 +277,7 @@ module "xhtml" instead.
 To create a very trivial webpage "foo.html" in the current directory,
 run a Lua script as follows:
 
-~~~ lua
+{{< highlight lua >}}
 #! lua
 require "xhtml"
 do
@@ -289,7 +290,7 @@ mydoc.BODY = {
             }
 END(mydoc) -- write the rope out to file
 end -- do
-~~~
+{{< /highlight >}}
 
 OK, this takes almost as long as creating the webpage by hand, for
 this trivial example. But it should not take too much imagination
@@ -301,7 +302,7 @@ Here are the relevant modules:
 
 **weave.lua**
 
-~~~ lua
+{{< highlight lua >}}
 --[[
  The rope datatype is defined recursively:
 
@@ -409,11 +410,11 @@ __index = function (_,tag)
 MONOTAG, TAG = {},{}
 setmetatable(MONOTAG,monotagger)
 setmetatable(TAG,bitagger)
-~~~
+{{< /highlight >}}
 
  **xhtml.lua**
 
-~~~ lua
+{{< highlight lua >}}
 --[[ The xhtml library exports
 
  TAG, MONOTAG, BEGIN, END, TEXT, SPACE, REM and link
@@ -524,4 +525,4 @@ SPACE = function(n)
 
 REM = function(s) return { "\n<!-- ";s;" -->\n"; } end -- function
 link = function(url) return TAG.a { 'href="'; url; '"'; } end -- function
-~~~
+{{< /highlight >}}

@@ -17,7 +17,7 @@ The examples in this tutorial are then in the **orbit-2.0.2\samples\basic** fold
 
 The simplest Orbit application is one that serves up a single HTML page:
 
-~~~ lua
+{{< highlight lua >}}
 -- basic1.lua
 require"orbit"
 
@@ -41,7 +41,7 @@ function render_index()
     </html>
     ]]
 end
-~~~
+{{< /highlight >}}
 
 An Orbit application is a Lua module, declared in the usual way except for the extra 'orbit.new'. Lua's **module** function can take a number of extra arguments, which are all functions which modify the module table in some way: **package.seeall** makes the global environment accessible to the module, and **orbit.new** adds some extra methods to the new module (you may think of this as 'inheritance'.)
 
@@ -56,7 +56,7 @@ Not perhaps very impressive, seeing as the result could be achieved by a simple 
 
 All the usual web request variables are parsed and available to you. The **web** variable returned from the handler contains a table **GET** which has all the parameters passed to the server from a **GET** request. Call this script with **http://localhost:8080/?cat=felix&dog=fido** and you will see that **cat** and **dog** are fields of **web.GET**, appropriately translated from URL encoding.
 
-~~~ lua
+{{< highlight lua >}}
 -- basic3.lua
 require"orbit"
 
@@ -75,13 +75,13 @@ basic3:dispatch_get(function(web)
     </body></html>
     ]]):format(ls)
 end, "/", "/index")
-~~~
+{{< /highlight >}}
 
 This is not a pretty script; it's only virtue is that it is short. It is ugly for two basic reasons; first, generating HTML with regular string operations is awkward, and second, it does not separate the logical parts out neatly. The HTML problem will be discussed in the next section, but the next example separates the various operations into their own sections.
 
 This also shows how Orbit can serve up static content as well, in this case anything inside the **/images** directory:
 
-~~~ lua
+{{< highlight lua >}}
 -- basic2.lua
 require"orbit"
 
@@ -112,7 +112,7 @@ function render_index(mem)
     <h2>Memory used by Lua is %6.0f kB<h2>
    ]]):format(mem)
 end
-~~~
+{{< /highlight >}}
 
 Note that **dispatch_static** is passed a Lua _string pattern_, not a file mask; in this case, anything in the directory.
 
@@ -125,7 +125,7 @@ Orbit follows the Model-View-Controller (MVC) pattern that separates an applicat
 The HTML problem is usually solved using templates, such as [Cosmo](http://cosmo.luaforge.net/) as discussed in the last [article](http://luanova.org/sputnik) on Sputnik. Orbit provides another option, which is that Lua code can generate HTML:
 
 
-~~~ lua
+{{< highlight lua >}}
 -- html1.lua
 require"orbit"
 
@@ -141,7 +141,7 @@ end
 orbit.htmlify(generate)
 
 print(generate())
-~~~
+{{< /highlight >}}
 
     ==>
     C:\basic>lua html1.lua
@@ -151,14 +151,14 @@ print(generate())
 
 This certainly reads better if you are used to Lua, but the magic involved needs some explanation. You may imagine that Orbit has introduced a whole bunch of little functions into the module, but this is not how it is done.  Instead, **orbit.htmlify** modifies the environment of the function **generate** so that any undefined variable is assumed to be a HTML tag and becomes a suitable function. So you can generate anything, even with unknown tags. So if **generate** was:
 
-~~~ lua
+{{< highlight lua >}}
 function generate()
     return sensors {
         sensor {name="one"},
         sensor {name="two"},
     }
 end
-~~~
+{{< /highlight >}}
 
 Then the result would be this syntactically valid XML:
 
@@ -169,7 +169,7 @@ In presenting the resulting markup I've inserted a few line breaks for making re
 
 One problem to watch out for is that a mistyped tag name will give you odd HTML, not a Lua error. And there are some HTML tags which are valid Lua globals, such as **table** - the solution is to say **H('table')**, etc.  But HTML can now be generated without making your eyes bleed, as with the ugly web variables script. This little snippet uses the fact that tag functions take table arguments:
 
-~~~ lua
+{{< highlight lua >}}
 function generate (web)
     local list = {}
     for name,value in pairs(web.GET) do
@@ -177,11 +177,11 @@ function generate (web)
     end
     return ul(list)
 end
-~~~
+{{< /highlight >}}
 
 Any technique can produce over-elaborate code, as this program which generates an HTML form formatted with a table:
 
-~~~ lua
+{{< highlight lua >}}
 require"orbit"
 
 function wrap (inner)
@@ -202,11 +202,11 @@ end
 orbit.htmlify(wrap,test)
 
 print(test())
-~~~
+{{< /highlight >}}
 
 Not quite eye-bleeding, but getting there!  The solution is to capture common patterns in a library. The **util** module in the **basic** folder makes for much more readable code:
 
-~~~ lua
+{{< highlight lua >}}
 function show_form (web)
     return wrap(form {
         htable {
@@ -216,7 +216,7 @@ function show_form (web)
         }
     })
 end
-~~~
+{{< /highlight >}}
 
 ## Databases the Orbit Way
 
@@ -224,18 +224,18 @@ Orbit can create an Object-Relational Mapping (ORM) between the tables of a rela
 
 Consider the following SQL table definition found in the **blog** example database:
 
-~~~ sql
+{{< highlight sql >}}
 CREATE TABLE blog_post
        ("id" INTEGER PRIMARY KEY NOT NULL,
        "title" VARCHAR(255) DEFAULT NULL,
        "body" TEXT DEFAULT NULL,
        "n_comments" INTEGER DEFAULT NULL,
        "published_at" DATETIME DEFAULT NULL);
-~~~
+{{< /highlight >}}
 
 This code uses LuaSQL's sqlite3 driver to dump out a particular row of this table by defining a mapper:
 
-~~~ lua
+{{< highlight lua >}}
 -- ORM1.lua
 require "orbit"
 require "luasql.sqlite3"
@@ -268,7 +268,7 @@ posts = mapper:new 'post'  -- maps to blog_post table
 second = posts:find(2)
 
 dump(second)
-~~~
+{{< /highlight >}}
 
     ==>
     published_at    number  1096923480
@@ -301,10 +301,10 @@ As always, the interactive prompt is the best way to explore the available mappe
 
 **find_first** also returns a row, but by an explicit condition; **find_all** is similar, but returns an array of all matching rows. Note that the condition is a SQL expression, not Lua; this is effectively a more friendly way to create an SQL query:
 
-~~~ lua
+{{< highlight lua >}}
 dump(posts:find_all("id = ? or id = ?",
     {2,4,order = "published_at asc"}))
-~~~
+{{< /highlight >}}
 
 
 ORM mapping works particularly nicely with dynamic languages, but there are some downsides.  consider the case that the table **blog_post** had many thousands of rows; the default mapper will grab all the columns, including the potentially rather large **body**. So opportunities for optimizing queries are lost, if we were only interested in searching the title for a match. It's possible to reorganize things so that **blog_post** only contained 'meta' data about each post (plus perhaps a short summary) and a new table **blog_text** would contain the actual text of each post, indexable using the same id.
@@ -315,23 +315,23 @@ The next example will bring together these three concerns: request pattern match
 
 All our HTML-generating functions begin with 'render_'. **orbit.htmlify** can be called in another way, where you give the module first, and then specify a string pattern to match the functions in the module that you want to htmlify.
 
-~~~ lua
+{{< highlight lua >}}
 orbit.htmlify(blog1,'render_.+')
-~~~
+{{< /highlight >}}
 
 Initially, the actual model-controller part of the application is simply this:
 
-~~~ lua
+{{< highlight lua >}}
 function index(web)
   return render_index(posts:find_all())
 end
 
 blog1:dispatch_get(index, "/", "/index")
-~~~
+{{< /highlight >}}
 
 And the view part:
 
-~~~ lua
+{{< highlight lua >}}
 local function limit (s,maxlen)
     if #s > maxlen then
         return s:sub(1,maxlen)..'...'
@@ -363,13 +363,13 @@ function render_index(posts)
     end
     return render_page(res)
 end
-~~~
+{{< /highlight >}}
 
 The heart of the view is **render_post**, which formats each row from the model. You will only achieve date formatting happiness once you have learned the formating characters for **os.date**; these are the same as those used in the C <a href="http://msdn.microsoft.com/en-us/library/fe06s4ak%28VS.80%29.aspx">strftime</a> function.
 
 All in all, not bad for a 55-line program. The next step is to add simple keyword searching, which takes an extra line:
 
-~~~ lua
+{{< highlight lua >}}
 function index(web)
   local keyword = web.GET.keyword or ''
   if keyword == '' then return {}
@@ -377,13 +377,13 @@ function index(web)
     return render_index(posts:find_all('title like ?',{'%'..keyword..'%'}))
   end
 end
-~~~
+{{< /highlight >}}
 
 The SQL **like** operator works with patterns, so that finding a title containing the word 'Chicken' would be "title like '%Chicken%'", where '%' means 'any sequence of characters'.  The keyword is passed as a GET request variable: enter the following URL to see the results of the search: **http://localhost:8080/?keyword=Chicken**.
 
 It would be useful to have _some_ user interface, especially when we start passing multiple keywords.  **render_index** becomes:
 
-~~~ lua
+{{< highlight lua >}}
 function render_index(posts)
     local res = {}
     append(res,p (form {
@@ -397,7 +397,7 @@ function render_index(posts)
     end
     return render_page(res)
 end
-~~~
+{{< /highlight >}}
 
 By default, HTML forms submit their values to the same URL as the page, so this works fine.
 

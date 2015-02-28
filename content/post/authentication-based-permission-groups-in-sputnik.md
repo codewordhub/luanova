@@ -42,18 +42,18 @@ Each node in a Sputnik document store is a Lua script that is compiled
 and assembled into a Lua object at runtime. Consider the following
 simple node:
 
-~~~ lua
+{{< highlight lua >}}
 title = "Some Page"
 content = [[This is a simple test node for a Sputnik installation.
 
 Hello World!]]
-~~~
+{{< /highlight >}}
 
 Sputnik nodes can be more than just a symbolic representation of text
 data. For example, you can restrict the permissions of a node by
 adding a permissions field. Consider the following definition:
 
-~~~ lua
+{{< highlight lua >}}
 permissions    = [[
   deny(all_users, all_actions)
   allow(all_users, show)  -- show, show_content, cancel
@@ -62,7 +62,7 @@ permissions    = [[
   allow(all_users, "rss")
   allow(Admin, all_actions)
 ]]
-~~~
+{{< /highlight >}}
 
 When this field is loaded, it's obviously a string that we can then
 further process. Specifically, we load it in an environment where a
@@ -78,7 +78,7 @@ When I started looking for a way to ban users, I started looking in
 this section of the code and found the following gem that Yuri sneaked
 in after the definition for the Admin group:
 
-~~~ lua
+{{< highlight lua >}}
 local groups = self.saci.permission_groups -- just a local alias
 -- Define group "Admin" as any user that has is_admin set to true
 groups.Admin = function(user)
@@ -99,7 +99,7 @@ local groups_mt = {
    end
 }
 groups.is = setmetatable({}, groups_mt)
-~~~
+{{< /highlight >}}
 
 Bingo! With this bit of code, without making any changes to the
 Sputnik core, I had a way to ban users in my system, by setting the
@@ -111,9 +111,9 @@ part of the puzzle, since Sputnik doesn't know anything about the new
 user group. I had to make a few edits to the @Root prototype to add
 the following at the end:
 
-~~~ lua
+{{< highlight lua >}}
 deny(is.banned, edit_and_save)
-~~~
+{{< /highlight >}}
 
 Since earlier in the permissions script the edit_and_save permissions
 are granted to all authenticated users, I needed to make sure the

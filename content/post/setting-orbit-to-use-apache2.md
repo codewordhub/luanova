@@ -87,7 +87,7 @@ To enable your application you need to add **+ExecCGI** to an .htaccess file in 
 
 Here is a simple example of a “Hello World” orbit application. Put this in /var/www/index.ws
 
-~~~ lua
+{{< highlight lua >}}
 #!/usr/bin/env wsapi.fcgi
 
 require"orbit"
@@ -158,7 +158,7 @@ end
 orbit.htmlify( hello, "render_.+" )
 
 return _M
-~~~
+{{< /highlight >}}
 
 Now you should be able to launch your web browser and goto                http://hostname and you should see "Hello World!"
 

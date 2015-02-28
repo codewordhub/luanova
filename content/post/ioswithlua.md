@@ -27,14 +27,14 @@ author = "mathewburke"
 
 <div class="panelHeader">Listing 1: A Lua Table</div>
 
-~~~ lua
+{{< highlight lua >}}
 car_data = { license = 'XVW1942', make = 'Volvo',
                 model = 'XC70', 30, 31.3, 32.4, 34.0 }
 
 print(car_data[1])                -- 30
 print(car_data['license'])       -- XVW1942
 print(car_data.license)          -- XVW1942 (also!)
-~~~
+{{< /highlight >}}
 
 <div class="panelFooter">In Lua, array indices start at one, not zero.
 Comments are indicated by '--' and run to the end of the line.
@@ -50,7 +50,7 @@ Comments are indicated by '--' and run to the end of the line.
 
 <div class="panelHeader">Listing 2: Linked List Class</div>
 
-~~~ lua
+{{< highlight lua >}}
 List = {}
 List.__index = List
 
@@ -79,7 +79,7 @@ end
 mylist = List:new()
 mylist:addFirst(12)
 print(mylist:first())
-~~~
+{{< /highlight >}}
 
 <p>I'm sure I've left out the really interesting/important things (<span class="tiny">such as lexical closures</span>), but this at least gives you a little taste of Lua.  There are more samplings below when we get to actual iPhone coding.  For further details on Lua, see the <a href="">web site</a>.</p>
 
@@ -112,7 +112,7 @@ print(mylist:first())
 
 <div class="panelHeader">Listing 3: main.lua from the Swirly Text app</div>
 
-~~~ lua
+{{< highlight lua >}}
 local w, h = display.stageWidth, display.stageHeight
 local dx, dy, dtheta = 5, 5, 5
 
@@ -144,7 +144,7 @@ end
 
 
 Runtime:addEventListener('enterFrame', update)
-~~~
+{{< /highlight >}}
 
 <p>Corona apps are developed using your favorite text editor&mdash;I use Emacs.  All Lua source code and any necessary resources (images, sounds, and data) must reside in a single directory and Corona expects a Lua file, <strong>main.lua</strong> which is where your app starts executing.  You test your code in Corona's simulator which runs on both Intel and PPC Macs.  Figure 1 shows my Corona 'IDE': namely Emacs with two windows (a Lua file and the project directory), the Corona terminal (you can print debugging info to the terminal), and the Corona simulator.</p>
 
@@ -163,7 +163,7 @@ Runtime:addEventListener('enterFrame', update)
 
 <div class="panelHeader">Listing 4: excerpt from Solar System app</div>
 
-~~~ lua
+{{< highlight lua >}}
 function new(params)
    local color = params.color or planet_colors[random(#planet_colors)]
    local radius = params.radius or planetRadius()
@@ -183,7 +183,7 @@ function new(params)
 
    return planet
 end
-~~~
+{{< /highlight >}}
 
 <div class="panelFooter">By passing a table as a function's paramter, we can make use of named
 parameters and default values.  Thus, the idiom of local radius = params.radius or planetRadius()
@@ -204,7 +204,7 @@ The work is done in the method, <strong>evaluate</strong>, which is shown in Lis
 
 <div class="panelHeader">Listing 5: LuaTrial's <strong>evaluate</strong> method.</div>
 
-~~~c
+{{< highlight c >}}
 -(void)evaluate {
     int err;
 
@@ -241,7 +241,7 @@ The work is done in the method, <strong>evaluate</strong>, which is shown in Lis
         output.text = outputNS;
     }
 }
-~~~
+{{< /highlight >}}
 
 <p>Note the error checking and handling is minimal.  A little additional effort could yield a nice Lua shell&mdash;not that you could actually put it in the App Store...</p>
 
@@ -255,7 +255,7 @@ The work is done in the method, <strong>evaluate</strong>, which is shown in Lis
 
 <div class="panelHeader">Listing 6: RootViewController.lua</div>
 
-~~~ lua
+{{< highlight lua >}}
 waxClass{'RootViewController', UI.ViewController }
 
 function init(self)
@@ -297,7 +297,7 @@ function eval(self, sender)
     end
 
 end
-~~~
+{{< /highlight >}}
 
 <p>The <strong>waxClass</strong> function essentially defines a new Objective-C class.  In this instance we are defining a class named <strong>RootViewController</strong> which is a sub-class of <strong>UIViewController</strong>.  (<span class="tiny">In Wax, the Objective-C classes have been put into namespaces, hence <strong>UI.ViewController</strong>, rather than <strong>UIViewController</strong></span>).  The Lua representation of instances of this class is a table (<span class="tiny">well, really a <strong>userdata</strong>, but you can think table...</span>), hence items like <strong>self.input</strong> are Lua table fields and <strong>not</strong> Objective-C properties.  To access properties you use setters and getters, e.g. <strong>self.output:setText()</strong>.  If you're like me, this will trip you up until you embarass yourself by asking about it in the <a href="http://groups.google.com/group/iphonewax">mailing list</a>.  Aftewards, you won't mix it up again. (<span class="tiny">Actually, the people on the mailing list are quite nice.</span>)</p>
 
@@ -305,7 +305,7 @@ end
 
 <div class="panelHeader">Listing 7: SortedDataSource.lua</div>
 
-~~~ lua
+{{< highlight lua >}}
 waxClass{'SortedDataSource', NS.Object, protocols = {'UITableViewDataSource'}, }
 
 
@@ -343,7 +343,7 @@ end
 function tableView_titleForHeaderInSection(self, tableView, section)
     return self.source_table.headers[section+1]
 end
-~~~
+{{< /highlight >}}
 
 <div class="panelFooter">
 Note the <em>toll-free</em> conversion of Lua strings to Objective-C strings in functions such as <strong>tableView_titleForHeaderInSection</strong>.

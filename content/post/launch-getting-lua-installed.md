@@ -13,24 +13,24 @@ First, you need to have Apple's Developer Tools installed. They should be your M
 
 Next, [download Lua source code](http://www.lua.org/download.html) and unpack the archive in Finder. Or you can use **Terminal** to download the current  release (5.1.2) to your Downloads folder (or a suitable location of your choice):
 
-~~~ bash
+{{< highlight bash >}}
 cd Downloads
 curl -O http://www.lua.org/ftp/lua-5.1.2.tar.gz
 tar xzvf lua-5.1.2.tar.gz
 cd lua-5.1.2
-~~~
+{{< /highlight >}}
 
 Either way, you need **Terminal** (from Application/Utilities) to do the rest. Make sure you are in the lua-5.1.2/ folder, and type:
 
-~~~ bash
+{{< highlight bash >}}
 make macosx
-~~~
+{{< /highlight >}}
 
 Several lines should scroll by. On Leopard you will see some _deprecated_ warnings in loadlib.c. Don't worry about it. To make sure everything is okay, run:
 
-~~~ bash
+{{< highlight bash >}}
 make test
-~~~
+{{< /highlight >}}
 
 You should see **"Hello world, from Lua 5.1!"**
 
@@ -42,37 +42,37 @@ It is possible to run the Lua interpreter from right here, but let's install it 
 
 So from the lua-5.1.2/ folder, run:
 
-~~~ bash
+{{< highlight bash >}}
 sudo make install INSTALL_TOP=/usr/local
-~~~
+{{< /highlight >}}
 
 and provide your password.
 
 It appears that Leopard ships with /usr/local/bin in your path. You can check by running: (make sure PATH is uppercase)
 
-~~~ bash
+{{< highlight bash >}}
 env | grep PATH
-~~~
+{{< /highlight >}}
 
 If you don't see it there, you need to modify your .profile file.
 
-~~~ bash
+{{< highlight bash >}}
 pico ~/.profile
-~~~
+{{< /highlight >}}
 
 and include:
 
-~~~ bash
+{{< highlight bash >}}
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
-~~~
+{{< /highlight >}}
 
 If you are using [TextMate](http://macromates.com), and will be installing the Lua bundle later, you may also want to include:
 
-~~~ bash
+{{< highlight bash >}}
 export SVN_EDITOR="mate -w"
 export LC_CTYPE=en_US.UTF-8
-~~~
+{{< /highlight >}}
 
 With pico, press Ctrl-X followed by Y to exit and save.
 
@@ -82,24 +82,24 @@ The changes will take affect when you open a new Terminal window.
 
 With Lua installed in your path, you can run it in Terminal from any folder. Just type:
 
-~~~ bash
+{{< highlight bash >}}
 lua
-~~~
+{{< /highlight >}}
 
 This brings up the interactive interpreter. You can type in Lua code:
 
-~~~ lua
+{{< highlight lua >}}
 print "Hi"
 = 2 + 3
-~~~
+{{< /highlight >}}
 
 Press **Ctrl-C** to exit when you're done.
 
 Now that Lua is installed, you _could_ remove the Downloads/lua-5.1.2 folder. But you may want to check out the test/ folder for some example code. You can run these examples from within the lua-5.1.2/test/ folder like this:
 
-~~~ bash
+{{< highlight bash >}}
 lua factorial.lua
-~~~
+{{< /highlight >}}
 
 A local copy of the [Reference Manual](http://www.lua.org/manual/5.1/) can be found under doc/manual.html.
 
@@ -112,11 +112,11 @@ The bundles are stored in a Subversion repository, which requires Subversion (sv
 
 As per the [TextMate manual](http://macromates.com/textmate/manual/bundles#getting_more_bundles):
 
-~~~ bash
+{{< highlight bash >}}
 mkdir -p /Library/Application\ Support/TextMate/Bundles
 cd /Library/Application\ Support/TextMate/Bundles
 svn co http://svn.textmate.org/trunk/Bundles/Lua.tmbundle
-~~~
+{{< /highlight >}}
 
 You need to restart TextMate or navigate to to Bundles -> Bundle Editor -> **Reload Bundles** in the menu.
 

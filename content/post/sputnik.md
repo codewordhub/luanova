@@ -21,9 +21,9 @@ It is true that the first trade-off is the freedom to do things _your_ way, sinc
 
 [Installing Sputnik](http://sputnik.freewisdom.org/en/Installation) is straightforward, providing you are on a Unix-like platform (like Linux or OS X) although it does also run on Windows.  In this introduction, I assume that it is an Unix environment (although out of convenience, not religious fervour; it is very easy to get a Linux virtual machine and set it up for Sputnik testing.)   After following instructions, you will have a Sputnik install in **~/sputnik**, no special permissions necessary.  Starting the webserver is then just:
 
-~~~ bash
+{{< highlight bash >}}
 ~/sputnik$ ./bin/sputnik.lua start-xavante sputnik.ws
-~~~
+{{< /highlight >}}
 
 Sputnik comes with the [Kepler stack](http://www.keplerproject.org), including the Lua webserver Xavante.  This is quite good enough for testing and experimentation.
 
@@ -31,7 +31,7 @@ A useful change is to first edit **sputnik.ws** and set **BASE_URL** to '/' and 
 
 All Sputnik configuration is via nodes with Lua content. For instance, **sputnik/config**  assigns a set of fields to values. If you are editing this file (as Admin) and make a syntax error (such as **'Sputnik"**, mismatching string delimiters) the edit field will turn pink. **sputnik/navigation** controls the navigation bar menu:
 
-~~~ lua
+{{< highlight lua >}}
 NAVIGATION = {
    {id="index", title="Start",
      {id="snippets", title="Snippets"},
@@ -46,7 +46,7 @@ NAVIGATION = {
      {id="history.rss", title="RSS Feed"},
    },
 }
-~~~
+{{< /highlight >}}
 
 Creating a new node is easy; if you ask for a node **test** then it will tell you that this node does not exist, but then will give you several types to choose from.  The 'Basic' type is a plain Wiki page, and the link provided is something like **http://localhost:8080/?p=test.edit&prototype=**.  In general, a Sputnik request has a _node id_ ('test'), an _action_ ('edit') and _parameters_ ('prototype=')
 
@@ -74,13 +74,13 @@ It _is_ possible to customize Sputnik by putting a suitable **pages.lua** in **$
 
 The best quick solution is to add directories to the **LUA_PATH** environment variable before launching Sputnik:
 
-~~~ bash
+{{< highlight bash >}}
 ~/sputnik$ export LUA_PATH=";;$HOME/sputnik/examples/?.lua"
-~~~
+{{< /highlight >}}
 
 Then create a directory **~/sputnik/examples/sputnik/node_defaults** containing this file, **pages.lua**:
 
-~~~ lua
+{{< highlight lua >}}
 module(..., package.seeall)
 
 NODE = {
@@ -90,7 +90,7 @@ NODE = {
         any='prototype = ""'
     ]],
 }
-~~~
+{{< /highlight >}}
 
 It is structured as a Lua module, which contains a single exported table, **NODE** .  The definition of the field **child_defaults** may appear a little hairy at first, but it's now time to get the three different ways to do string literals in Lua straight.  Whether you use single or double quotes for a string, does not matter; it is a convenience so that you can embed the other kind of quotes: **'prototype = ""'**. This string is then further embedded in a Lua 'long string' literal.
 
@@ -104,7 +104,7 @@ and save, the result will have a link to a new page, which you can in turn edit.
 
 To see how Sputnik saves pages by default, look at the **~/sputnik/wiki-data** directory. There will be a subdirectory **pages%2FIntroduction** with files **000001** and **index**. (The subdirectory is just the URL-encoded form of 'pages/Introduction' ).  **index** will contain something like this:
 
-~~~ lua
+{{< highlight lua >}}
 add_version{
 version   = "000001",
 timestamp = "2009-11-01 14:33:07",
@@ -113,18 +113,18 @@ comment   = "",
  ["minor"] = "",
  ["ip"] = "127.0.0.1",
 }
-~~~
+{{< /highlight >}}
 
 And **000001** contains the node text:
 
-~~~ lua
+{{< highlight lua >}}
 title          = "pages/Introduction"
 category       = ""
 content        = [=[Some text for the Introduction node. See [[pages/Basic]]
 
 ]=]
 breadcrumb     = ""
-~~~
+{{< /highlight >}}
 
 As the node is edited, each revision is saved in a similar format, **000002**, etc.  In this way, edit history is managed in a simple way, easily readable by humans, as opposed to being stored in some relational database. However, using a database for storage is also supported by the Sputnik content manager, which is called [Saci](http://sputnik.freewisdom.org/en/Saci).
 
@@ -132,29 +132,29 @@ As the node is edited, each revision is saved in a similar format, **000002**, e
 
 Before actually starting with code, it's useful to have a handy shortcut to the Lua executable used by Sputnik.  I suggest creating a little executable script like this on your path:
 
-~~~ bash
+{{< highlight bash >}}
   $> cat ~/bin/slua
   ~/sputnik/bin/lua -lluarocks.require $*
-~~~
+{{< /highlight >}}
 
 Before we actually get round to generating dynamic content, here is a quick review of [Cosmo](http://cosmo.luaforge.net/),  which is a powerful template engine used by Sputnik.
 
-~~~ bash
+{{< highlight bash >}}
 ~$ slua
-~~~
+{{< /highlight >}}
 
-~~~ lua
+{{< highlight lua >}}
 Lua 5.1.4  Copyright (C) 1994-2008 Lua.org, PUC-Rio
 > require "cosmo"
 > template = "$rank of $suit"
 > values = {rank="Ace",suit="Spades"}
 > = cosmo.fill(template,values)
 Ace of Spades
-~~~
+{{< /highlight >}}
 
 That's useful, although only a little more friendly than Lua's **string.format** function.  However, Cosmo goes way beyond simple [string interpolation](http://lua-users.org/wiki/StringInterpolation).
 
-~~~ lua
+{{< highlight lua >}}
 -- testcosmo.lua
 require "cosmo"
 template = [==[
@@ -173,24 +173,24 @@ print(cosmo.fill(template, {
     end
 }
 ))
-~~~
+{{< /highlight >}}
 
-~~~ bash
+{{< highlight bash >}}
   ~$ slua testcosmo.lua
-~~~
+{{< /highlight >}}
 
-~~~ html
+{{< highlight html >}}
   <h1>My List</h1>
   <ul>
    <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li>
   </ul>
-~~~
+{{< /highlight >}}
 
 _Subtemplates_ are a powerful feature which makes generating HTML straightforward.
 
 Now, we create a node which creates custom HTML output.  First, put **Memory.lua** in your  **node_defaults** directory:
 
-~~~ lua
+{{< highlight lua >}}
 module(..., package.seeall)
 
 NODE = {
@@ -200,11 +200,11 @@ NODE = {
         show="Memory.show_memory"
     ]],
 }
-~~~
+{{< /highlight >}}
 
 Create a directory **actions** (that is, **~/sputnik/examples/sputnik/actions**) and put this **Memory.lua** in it:
 
-~~~ lua
+{{< highlight lua >}}
 module(..., package.seeall)
 
 actions = {}
@@ -219,7 +219,7 @@ function actions.show_memory (node, request, sputnik)
     }
     return node.wrappers.default(node, request, sputnik)
 end
-~~~
+{{< /highlight >}}
 
 The convention is that any _action_ functions are in the **actions** directory; these functions must be in a nested **actions** table.  Visiting the node **Memory** will show the memory managed by Lua (as returned by the **collectgarbage('count')** call).
 
@@ -229,7 +229,7 @@ So, we now have a customized node with generated output.  Please note that it do
 
 To take this example further, let us wrap the output of the **ps** command:
 
-~~~ bash
+{{< highlight bash >}}
 ~$ ps aux --cols 256
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 ...
@@ -238,26 +238,26 @@ sdonovan  2902  1.2 12.4 179152 83160 ?        Sl   10:48   5:19 /usr/lib/icewea
 sdonovan  5993  0.0  0.4   5360  2844 pts/2    Ss   16:13   0:00 bash
 sdonovan  7118  0.0  0.3   5360  2024 pts/0    S+   18:03   0:00 bash
 sdonovan  7119  0.4  1.1   8384  7380 pts/0    S+   18:03   0:01 /home/sdonovan/sputnik/bin/lua -lluarocks.require /home/sdonovan/sputnik/rocks/sputnik/9.03.16-0/bin/sputnik.lua start-xavante sputnik.ws
-~~~
+{{< /highlight >}}
 
 (The **--cols** flag is necessary to prevent **ps** from thoughtfully truncating the line length to fit the terminal screen)
 
 Chopping lines up is easy using **sputnik.util.split** - notice that it returns multiple values, not a table:
 
-~~~ bash
+{{< highlight bash >}}
 ~$ slua
-~~~
+{{< /highlight >}}
 
-~~~ lua
+{{< highlight lua >}}
 Lua 5.1.4  Copyright (C) 1994-2008 Lua.org, PUC-Rio
 > util = require 'sputnik.util'
 > = util.split('one two three','%s+')
 one     two     three
-~~~
+{{< /highlight >}}
 
 With this, a more exciting version of **actions/Memory.lua** can be written:
 
-~~~ lua
+{{< highlight lua >}}
 module(..., package.seeall)
 local util = require 'sputnik.util'
 actions = {}
@@ -297,7 +297,7 @@ function actions.show_memory (node, request, sputnik)
     }
     return node.wrappers.default(node, request, sputnik)
 end
-~~~
+{{< /highlight >}}
 
 Now the node **Memory** is actually useful for the administrator of the website - but probably not a good idea to expose to the world!
 
@@ -305,7 +305,7 @@ Now the node **Memory** is actually useful for the administrator of the website 
 
 The node **Memory** should be restricted; only the Admin user should be able to view it. Also, it does not make sense to edit it, even as an administrator.  **actions/Memory.lua** needs to have a _permissions_ field:
 
-~~~ lua
+{{< highlight lua >}}
 module(..., package.seeall)
 
 NODE = {
@@ -319,15 +319,15 @@ NODE = {
         allow(Admin,show)
     ]]
 }
-~~~
+{{< /highlight >}}
 
 We start by prohibiting _everything_, and then only let Admin view the page.  Notice that all of the usual little action icons on the right-hand side have disappeared.
 
 To get back to the **pages** example; we may insist that only authenticated users can edit the pages.  There are two kinds of solution to this, make it site-wide policy or only for children of **pages**.  The first solution requires no code; as Admin, go to the **@Root** node, and choose the 'configure' action (which is usually the little gear icon next to 'edit' on the actions toolbar)  Now open the 'Advanced Fields' section, and you can then edit the 'Permissions' field.  By default, Sputnik comments out this line:
 
-~~~ lua
+{{< highlight lua >}}
 -- deny(Anonymous, edit_and_save)
-~~~
+{{< /highlight >}}
 
 Remove the comment and save.  Now anonymous users have lost their power to make edits anywhere on the site.
 
@@ -337,7 +337,7 @@ Previously, the **pages** node has insisted that its children have an 'empty' pr
 
 **node_defaults/pages.lua** becomes:
 
-~~~ lua
+{{< highlight lua >}}
 module(..., package.seeall)
 
 NODE = {
@@ -347,11 +347,11 @@ NODE = {
         any='prototype = "@pages"'
     ]]
 }
-~~~
+{{< /highlight >}}
 
 and create a new file **node_defaults/@pages.lua** to define the **@pages** prototype:
 
-~~~ lua
+{{< highlight lua >}}
 module(..., package.seeall)
 
 NODE = {
@@ -360,7 +360,7 @@ NODE = {
         deny(Anonymous,edit_and_save)
    ]]
 }
-~~~
+{{< /highlight >}}
 
 It does very little, just explicitly overrides the permissions.
 
@@ -368,7 +368,7 @@ It does very little, just explicitly overrides the permissions.
 
 Continuing with the **pages** example, it would be useful if we could track the author of a particular page, defined simply as the user that first edited it.  Also, we would like to track the creation date.  So the prototype for all pages must include these new_fields and define a _save hook_ which will be called when the node is saved:
 
-~~~ lua
+{{< highlight lua >}}
 -- node_defaults/@pages.lua
 module(..., package.seeall)
 
@@ -383,11 +383,11 @@ NODE = {
   ]],
    save_hook = "pages.save_page"
 }
-~~~
+{{< /highlight >}}
 
 Create a directory 'sputnik/hooks' as before, and put **pages.lua** in it:
 
-~~~ lua
+{{< highlight lua >}}
 -- hooks/pages.lua
 module(..., package.seeall)
 
@@ -400,13 +400,13 @@ function save_page(node, request, sputnik)
     end
     return node
 end
-~~~
+{{< /highlight >}}
 
 When a node's **save_hook** field is set to **MODULE.FUNCTION** , then Sputnik will try to load **sputnik.hooks.MODULE** and use the **FUNCTION** defined by that module.  In this case, the save hook is only interested in a new node, where the author and creation time fields have not been assigned yet.  It uses the **update_node_with_params** method to write the new key/value pairs into the node.
 
 Now, after saving **pages/fred**, the revision in the **pages%2Ffred** directory will look like this:
 
-~~~ lua
+{{< highlight lua >}}
 title          = "pages/fred"
 category       = ""
 prototype      = "@pages"
@@ -415,7 +415,7 @@ content        = [[Some content!
 breadcrumb     = ""
 author         = "sdonovan"
 creation_time  = "1257157113"
-~~~
+{{< /highlight >}}
 
 This shows that we are saving the new information, although these fields are not displayed yet.
 
@@ -427,7 +427,7 @@ If you are accustomed to regular Web frameworks, you are probably tempted to mai
 
 The existing pages can be found by querying Saci, which provides a **get_nodes_by_prefix** method. The prefix identifies the _namespace_ for the nodes, which is **pages** in this case. This method returns a table where the keys are the _identifiers_ (e.g. **pages/fred**) and the values are the node objects. Here is code that creates a list of nodes from this table, and sorts it by creation time.
 
-~~~ lua
+{{< highlight lua >}}
 local function pages_in_order (sputnik)
     local pages = sputnik.saci:get_nodes_by_prefix 'pages'
     local res = {}
@@ -437,19 +437,19 @@ local function pages_in_order (sputnik)
     table.sort(res,function(p1,p2) return p1.creation_time < p2.creation_time end)
     return res
 end
-~~~
+{{< /highlight >}}
 
 **node_defaults/pages.lua** gets an actions field, just as with **node_defaults/Memory.lua**:
 
-~~~ lua
+{{< highlight lua >}}
 actions=[[
     show="pages.show_pages"
 ]]
-~~~
+{{< /highlight >}}
 
 And **actions/pages.lua** will be:
 
-~~~ lua
+{{< highlight lua >}}
 module (...,package.seeall)
 
 actions = {}
@@ -488,7 +488,7 @@ function actions.show_pages(node, request, sputnik)
     }
     return node.wrappers.default(node, request, sputnik)
 end
-~~~
+{{< /highlight >}}
 
 ## Beyond the Basics
 

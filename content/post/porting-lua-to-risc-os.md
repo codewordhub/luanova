@@ -241,7 +241,7 @@ I hope it shows the general principle.
 This shows the final dialogue box when the
 following program is run.
 
-~~~ lua
+{{< highlight lua >}}
 -- Fred, tiny wimp program using error dialogue
 require "wimp.task"
 do
@@ -267,7 +267,7 @@ do
  fred:init()                   -- register it
  fred:run()                    -- run it
 end -- do
-~~~
+{{< /highlight >}}
 
 This is a toy example of a RiscLua wimp program. It puts up a
 window with two buttons, CANCEL for stopping, OK for carrying

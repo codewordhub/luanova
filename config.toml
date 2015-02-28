@@ -1,6 +1,7 @@
 baseurl = "http://www.luanova.org"
 languageCode = "en-us"
 title = "lua nova"
+pygmentsuseclasses = true
 
 [permalinks]
 post = "/:filename/"
