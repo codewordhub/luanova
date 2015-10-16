@@ -10,7 +10,7 @@ This is the content for the Lua Nova web site.
 * Install the `hugo` binary, download it at [gohugo.io](http://gohugo.io/).
 * Install [sassc](https://github.com/sass/sassc).
   Mac: `brew install sassc`
-* SassC doesn't watch for file changes, but you can use [Reflex](https://github.com/cespare/reflex).
+* SassC doesn't watch for file changes, but you can use [cmd/notify](https://github.com/rjeczalik/cmd).
 * Install [Pygments](http://pygments.org/) for syntax highlighting.
 
 ### Deployment
