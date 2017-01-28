@@ -9,7 +9,6 @@ about = "/:filename/"
 
 [Params]
 Subtitle = "welcome to the moon"
-GaugesId = "505378cd613f5d0d9d000047"
 
 [Params.Authors]
 
