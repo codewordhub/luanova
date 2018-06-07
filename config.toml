@@ -3,6 +3,9 @@ languageCode = "en-us"
 title = "lua nova"
 pygmentsuseclasses = true
 
+[outputFormats.RSS]
+baseName = "index"
+
 [permalinks]
 post = "/:filename/"
 about = "/:filename/"
@@ -47,6 +50,3 @@ Subtitle = "welcome to the moon"
     email = "gavin@wra1th.plus.com"
     avatar = "https://gravatar.com/avatar/c202741728e8804561d5529c8c6baa57.jpg?s=100"
     bio = ""
-
-
-
