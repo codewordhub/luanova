@@ -3,4 +3,4 @@
 .sass-cache
 .tags*
 public
-static/all.css
+resources/_gen
