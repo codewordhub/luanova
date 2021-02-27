@@ -1,7 +1,6 @@
 +++
 title = "An introduction to Orbit"
 date = "2009-12-22"
-description = "..."
 author = "stevejdonovan"
 +++
 

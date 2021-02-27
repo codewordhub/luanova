@@ -1,7 +1,6 @@
 +++
 title = "Guardian of the Imperial Inkstand"
 date = "2010-01-22"
-description = "..."
 author = "wra1th"
 +++
 

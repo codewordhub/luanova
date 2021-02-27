@@ -1,7 +1,6 @@
 +++
 title = "The Golden Wombat of Destiny"
 date = "2008-03-15"
-description = "..."
 author = "nathany"
 +++
 

@@ -1,7 +1,6 @@
 +++
 title = "Lua and the web: an overview"
 date = "2008-03-15"
-description = "..."
 author = "nathany"
 +++
 

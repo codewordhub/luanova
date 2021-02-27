@@ -1,7 +1,6 @@
 +++
 title = "Authentication-based permission groups in Sputnik"
 date = "2010-05-19"
-description = "..."
 author = "jimwhitehead"
 +++
 

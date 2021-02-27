@@ -3,13 +3,13 @@
 <article role="main">
   <section class="articles">
     <ol>
-      {{ range .Data.Pages }}
+      {{ range .Site.RegularPages }}
         <li>
           <article>
             <header>
               <h1><a href="{{ .RelPermalink }}">{{ .Title }}</a></h1>
             </header>
-            <p>{{ .Summary }}</p>
+            <p>{{ .Summary | plainify | safeHTML }}</p>
             <p class="read_more"><a href="{{ .RelPermalink }}">Continue reading</a></p>
             <footer>
               <p class="meta">

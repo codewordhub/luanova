@@ -1,7 +1,6 @@
 +++
 title = "Setting Orbit to use Apache2"
 date = "2010-09-08"
-description = "..."
 author = "ryanpusztai"
 +++
 
