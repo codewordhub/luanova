@@ -2,7 +2,6 @@
 title = "Porting Lua to RISC OS"
 date = "2010-03-03"
 revised = "2015-03-06"
-description = "..."
 author = "wra1th"
 +++
 

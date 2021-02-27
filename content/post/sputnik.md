@@ -1,7 +1,6 @@
 +++
 title = "Sputnik: An Introduction I"
 date = "2009-11-11"
-description = "..."
 author = "stevejdonovan"
 +++
 
